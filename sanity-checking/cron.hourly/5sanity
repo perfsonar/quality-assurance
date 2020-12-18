@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+
+DATAPATH=elk/data/input/sanity
+pushd /data/sanity
+/usr/bin/time /usr/bin/docker run --privileged  --name sanity-production --network host --rm sanity-production >> $DATAPATH/cron-testbed.jsonl
+jq -c '.hosts[]' $DATAPATH/cron-testbed.jsonl >> $DATAPATH/hosts.jsonl && truncate -s 0 $DATAPATH/cron-testbed.jsonl
+
+/usr/bin/time /usr/bin/docker run --privileged  --name sanity --network host --rm sanity >> $DATAPATH/format2.jsonl
+popd

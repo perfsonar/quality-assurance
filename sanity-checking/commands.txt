@@ -1,0 +1,12 @@
+# TODO: update/generalize paths
+# docker build -t sanity .
+# docker run --privileged --name sanity --network host -v /Users/mj82/src/sanity/sanity.pl:/app/sanity.pl  --rm sanity
+
+# SNAUSUS
+#docker run --privileged  --name sanity-production --network host -v /Users/mj82/src/sanity/sanity.pl-production:/app/sanity.pl-production  --rm sanity-production
+#docker build -t sanity-production -f Dockerfile-production  .
+
+# SINGLE
+docker build -t single-sanity -f Dockerfile-single .
+docker run --privileged  --name single-sanity --network host -v /Users/mj82/src/sanity/single-sanity.pl:/app/single-sanity.pl  --rm single-sanity
+

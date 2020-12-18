@@ -1,0 +1,170 @@
+HOST: dhcp-150-254-208-80.qalab.geant.net
+PING dhcp-150-254-208-80.qalab.geant.net (150.254.208.80) 56(84) bytes of data.
+64 bytes from ps-4-0-xenial.qalab.geant.net (150.254.208.80): icmp_seq=1 ttl=48 time=128 ms
+64 bytes from ps-4-0-xenial.qalab.geant.net (150.254.208.80): icmp_seq=2 ttl=48 time=128 ms
+
+--- dhcp-150-254-208-80.qalab.geant.net ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1000ms
+rtt min/avg/max/mdev = 128.555/128.598/128.641/0.043 ms
+dhcp-150-254-208-80.qalab.geant.net: pScheduler is alive
+HOST: dhcp-150-254-208-84.qalab.geant.net
+PING dhcp-150-254-208-84.qalab.geant.net (150.254.208.84) 56(84) bytes of data.
+64 bytes from ps-beaver.qalab.geant.net (150.254.208.84): icmp_seq=1 ttl=48 time=128 ms
+64 bytes from ps-beaver.qalab.geant.net (150.254.208.84): icmp_seq=2 ttl=48 time=128 ms
+
+--- dhcp-150-254-208-84.qalab.geant.net ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 128.560/128.567/128.574/0.007 ms
+HOST: perfsonar-dc-macc-10ge.umnet.umich.edu
+PING perfsonar-dc-macc-10ge.umnet.umich.edu (198.108.9.54) 56(84) bytes of data.
+
+--- perfsonar-dc-macc-10ge.umnet.umich.edu ping statistics ---
+2 packets transmitted, 0 received, 100% packet loss, time 999ms
+
+perfsonar-dc-macc-10ge.umnet.umich.edu: pScheduler is alive
+HOST: perfsonar-dev.grnoc.iu.edu
+PING perfsonar-dev.grnoc.iu.edu (140.182.49.103) 56(84) bytes of data.
+64 bytes from perfsonar-dev.grnoc.iu.edu (140.182.49.103): icmp_seq=1 ttl=64 time=0.191 ms
+64 bytes from perfsonar-dev.grnoc.iu.edu (140.182.49.103): icmp_seq=2 ttl=64 time=0.223 ms
+
+--- perfsonar-dev.grnoc.iu.edu ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 999ms
+rtt min/avg/max/mdev = 0.191/0.207/0.223/0.016 ms
+perfsonar-dev.grnoc.iu.edu: pScheduler is alive
+HOST: perfsonar-dev10-esmond.grnoc.iu.edu
+PING perfsonar-dev10-esmond.grnoc.iu.edu (140.182.50.160) 56(84) bytes of data.
+64 bytes from perfsonar-dev10-esmond.grnoc.iu.edu (140.182.50.160): icmp_seq=1 ttl=63 time=2.45 ms
+64 bytes from perfsonar-dev10-esmond.grnoc.iu.edu (140.182.50.160): icmp_seq=2 ttl=63 time=2.45 ms
+
+--- perfsonar-dev10-esmond.grnoc.iu.edu ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 2.457/2.457/2.458/0.049 ms
+perfsonar-dev10-esmond.grnoc.iu.edu: pScheduler is alive
+HOST: perfsonar-dev8.grnoc.iu.edu
+PING perfsonar-dev8.grnoc.iu.edu (140.182.49.164) 56(84) bytes of data.
+64 bytes from perfsonar-dev8.grnoc.iu.edu (140.182.49.164): icmp_seq=1 ttl=64 time=0.038 ms
+64 bytes from perfsonar-dev8.grnoc.iu.edu (140.182.49.164): icmp_seq=2 ttl=64 time=0.031 ms
+
+--- perfsonar-dev8.grnoc.iu.edu ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 999ms
+rtt min/avg/max/mdev = 0.031/0.034/0.038/0.006 ms
+perfsonar-dev8.grnoc.iu.edu: pScheduler is alive
+HOST: perfsonar-dev9.grnoc.iu.edu
+PING perfsonar-dev9.grnoc.iu.edu (140.182.49.154) 56(84) bytes of data.
+64 bytes from perfsonar-dev9.grnoc.iu.edu (140.182.49.154): icmp_seq=1 ttl=64 time=0.284 ms
+64 bytes from perfsonar-dev9.grnoc.iu.edu (140.182.49.154): icmp_seq=2 ttl=64 time=0.230 ms
+
+--- perfsonar-dev9.grnoc.iu.edu ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 999ms
+rtt min/avg/max/mdev = 0.230/0.257/0.284/0.027 ms
+perfsonar-dev9.grnoc.iu.edu: pScheduler is alive
+HOST: ps-bionic.qalab.geant.net
+PING ps-bionic.qalab.geant.net (150.254.208.99) 56(84) bytes of data.
+64 bytes from ps-bionic.qalab.geant.net (150.254.208.99): icmp_seq=1 ttl=48 time=128 ms
+64 bytes from ps-bionic.qalab.geant.net (150.254.208.99): icmp_seq=2 ttl=48 time=128 ms
+
+--- ps-bionic.qalab.geant.net ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 999ms
+rtt min/avg/max/mdev = 128.673/128.700/128.728/0.359 ms
+HOST: ps-dev-docker-1.es.net
+PING ps-dev-docker-1.es.net (198.128.151.35) 56(84) bytes of data.
+64 bytes from ps-dev-docker-1.es.net (198.128.151.35): icmp_seq=1 ttl=57 time=52.8 ms
+64 bytes from ps-dev-docker-1.es.net (198.128.151.35): icmp_seq=2 ttl=57 time=53.0 ms
+
+--- ps-dev-docker-1.es.net ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1000ms
+rtt min/avg/max/mdev = 52.869/52.957/53.046/0.246 ms
+ps-dev-docker-1.es.net: pScheduler is alive
+HOST: ps-dev-el7-1.es.net
+PING ps-dev-el7-1.es.net (198.128.151.25) 56(84) bytes of data.
+64 bytes from ps-dev-el7-1.es.net (198.128.151.25): icmp_seq=1 ttl=57 time=52.9 ms
+64 bytes from ps-dev-el7-1.es.net (198.128.151.25): icmp_seq=2 ttl=57 time=52.7 ms
+
+--- ps-dev-el7-1.es.net ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 999ms
+rtt min/avg/max/mdev = 52.744/52.851/52.959/0.253 ms
+ps-dev-el7-1.es.net: pScheduler is alive
+HOST: ps-dev-el7-2.es.net
+PING ps-dev-el7-2.es.net (198.128.151.26) 56(84) bytes of data.
+64 bytes from ps-dev-el7-2.es.net (198.128.151.26): icmp_seq=1 ttl=57 time=52.8 ms
+64 bytes from ps-dev-el7-2.es.net (198.128.151.26): icmp_seq=2 ttl=57 time=52.8 ms
+
+--- ps-dev-el7-2.es.net ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 52.803/52.850/52.898/0.234 ms
+ps-dev-el7-2.es.net: pScheduler is alive
+HOST: ps-stretch.qalab.geant.net
+PING ps-stretch.qalab.geant.net (150.254.208.90) 56(84) bytes of data.
+64 bytes from dhcp-150-254-208-90.qalab.geant.net (150.254.208.90): icmp_seq=1 ttl=48 time=128 ms
+64 bytes from dhcp-150-254-208-90.qalab.geant.net (150.254.208.90): icmp_seq=2 ttl=48 time=128 ms
+
+--- ps-stretch.qalab.geant.net ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 128.567/128.607/128.648/0.360 ms
+ps-stretch.qalab.geant.net: pScheduler is alive
+HOST: pstest2.geant.CARNet.hr
+PING pstest2.geant.CARNet.hr (193.198.241.30) 56(84) bytes of data.
+
+--- pstest2.geant.CARNet.hr ping statistics ---
+2 packets transmitted, 0 received, 100% packet loss, time 999ms
+
+HOST: t2-psdev.rrze.uni-erlangen.de
+PING t2-psdev.rrze.uni-erlangen.de (131.188.81.82) 56(84) bytes of data.
+64 bytes from t2-psdev.rrze.uni-erlangen.de (131.188.81.82): icmp_seq=1 ttl=48 time=117 ms
+64 bytes from t2-psdev.rrze.uni-erlangen.de (131.188.81.82): icmp_seq=2 ttl=48 time=117 ms
+
+--- t2-psdev.rrze.uni-erlangen.de ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 117.758/117.795/117.833/0.345 ms
+t2-psdev.rrze.uni-erlangen.de: pScheduler is alive
+HOST: tb-el7-minor-dr.ps.dev.internet2.edu
+PING tb-el7-minor-dr.ps.dev.internet2.edu (163.253.37.199) 56(84) bytes of data.
+64 bytes from tb-el7-minor-dr.ps.dev.internet2.edu (163.253.37.199): icmp_seq=1 ttl=56 time=19.5 ms
+64 bytes from tb-el7-minor-dr.ps.dev.internet2.edu (163.253.37.199): icmp_seq=2 ttl=56 time=19.4 ms
+
+--- tb-el7-minor-dr.ps.dev.internet2.edu ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 19.497/19.531/19.566/0.143 ms
+tb-el7-minor-dr.ps.dev.internet2.edu: pScheduler is alive
+HOST: tb-el7-minor.ps.dev.internet2.edu
+PING tb-el7-minor.ps.dev.internet2.edu (163.253.37.198) 56(84) bytes of data.
+64 bytes from tb-el7-minor.ps.dev.internet2.edu (163.253.37.198): icmp_seq=1 ttl=56 time=19.9 ms
+64 bytes from tb-el7-minor.ps.dev.internet2.edu (163.253.37.198): icmp_seq=2 ttl=56 time=19.6 ms
+
+--- tb-el7-minor.ps.dev.internet2.edu ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 19.656/19.788/19.921/0.193 ms
+tb-el7-minor.ps.dev.internet2.edu: pScheduler is alive
+HOST: tb-el7-patch-dr.ps.dev.internet2.edu
+PING tb-el7-patch-dr.ps.dev.internet2.edu (163.253.37.197) 56(84) bytes of data.
+
+--- tb-el7-patch-dr.ps.dev.internet2.edu ping statistics ---
+2 packets transmitted, 0 received, 100% packet loss, time 999ms
+
+HOST: tb-el7-patch.ps.dev.internet2.edu
+PING tb-el7-patch.ps.dev.internet2.edu (163.253.37.196) 56(84) bytes of data.
+64 bytes from tb-el7-patch.ps.dev.internet2.edu (163.253.37.196): icmp_seq=1 ttl=56 time=19.5 ms
+64 bytes from tb-el7-patch.ps.dev.internet2.edu (163.253.37.196): icmp_seq=2 ttl=56 time=19.5 ms
+
+--- tb-el7-patch.ps.dev.internet2.edu ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 19.555/19.559/19.564/0.139 ms
+tb-el7-patch.ps.dev.internet2.edu: pScheduler is alive
+HOST: tb-el7-prod-dr.ps.dev.internet2.edu
+PING tb-el7-prod-dr.ps.dev.internet2.edu (163.253.37.203) 56(84) bytes of data.
+64 bytes from tb-el7-prod-dr.ps.dev.internet2.edu (163.253.37.203): icmp_seq=1 ttl=56 time=19.6 ms
+64 bytes from tb-el7-prod-dr.ps.dev.internet2.edu (163.253.37.203): icmp_seq=2 ttl=56 time=19.5 ms
+
+--- tb-el7-prod-dr.ps.dev.internet2.edu ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 19.575/19.598/19.622/0.141 ms
+tb-el7-prod-dr.ps.dev.internet2.edu: pScheduler is alive
+HOST: tb-el7-prod.ps.dev.internet2.edu
+PING tb-el7-prod.ps.dev.internet2.edu (163.253.37.202) 56(84) bytes of data.
+64 bytes from tb-el7-prod.ps.dev.internet2.edu (163.253.37.202): icmp_seq=1 ttl=56 time=19.5 ms
+64 bytes from tb-el7-prod.ps.dev.internet2.edu (163.253.37.202): icmp_seq=2 ttl=56 time=20.5 ms
+
+--- tb-el7-prod.ps.dev.internet2.edu ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 19.547/20.052/20.557/0.505 ms
+tb-el7-prod.ps.dev.internet2.edu: pScheduler is alive

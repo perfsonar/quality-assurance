@@ -1,0 +1,64 @@
+version: "3.5"
+
+# NOTE: create .env file like this:
+#LS_PASS=logstash-es-pass
+#KIB_PASS=kib-es-pass
+
+services:
+  sanity-elasticsearch:
+    image: elasticsearch:7.9.1
+    networks:
+      - sanity
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./data/esdata:/usr/share/elasticsearch/data
+    environment:
+      - cluster.initial_master_nodes=sanity-elasticsearch
+      - node.name=sanity-elasticsearch
+      - cluster.name=es-docker-cluster
+      - xpack.security.enabled=true
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.keystore.path=/usr/share/elasticsearch/data/config/elastic-certificates.p12
+      - xpack.security.transport.ssl.truststore.path=/usr/share/elasticsearch/data/config/elastic-certificates.p12
+
+
+  sanity-logstash:
+    image: logstash:7.9.1
+    networks:
+      - sanity
+    ports:
+      - "5044:5044"
+      - "9600:9600"
+    volumes:
+      - ./data:/data
+      - ./etc/logstash:/etc/logstash
+      - ./data/logdata:/usr/share/logstash/data/
+      - ./etc/logstash:/usr/share/logstash/config
+      - ./etc/logstash:/usr/share/logstash/pipeline
+    environment:
+      ELASTICSEARCH_URL: http://sanity-elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://sanity-elasticsearch:9200
+      ELASTICSEARCH_USERNAME: ps_logstash
+      ELASTICSEARCH_PASSWORD: $LS_PASS 
+    build: .
+
+  sanity-kibana:
+    image: kibana:7.9.1
+    #volumes:
+    #  - ./etc/kibana.yml:/usr/share/kibana/config/kibana.yml
+    networks:
+      - sanity
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_URL: http://sanity-elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://sanity-elasticsearch:9200
+      ELASTICSEARCH_USERNAME: kibana_system
+      ELASTICSEARCH_PASSWORD: $KIB_PASS 
+
+networks:
+  sanity:
+    driver: bridge

@@ -1,0 +1,15 @@
+FROM perfsonar/testpoint:latest
+
+#RUN yum -y upgrade && \
+RUN    yum -y install perl-LWP-Protocol-https
+#    apt-get install -y libjson-perl jq
+
+RUN mkdir /app
+RUN mkdir /app/logs
+WORKDIR /app
+
+COPY single-sanity.pl /app
+
+#CMD ["ls", "-l", "/app"]
+
+ENTRYPOINT ["/usr/bin/perl", "-I /usr/lib/perfsonar/lib", "single-sanity.pl"]
