@@ -1,0 +1,14 @@
+{
+    "testpoint": {
+        "ping": {
+            "reachable": true
+        }
+    },
+    "toolkit": {
+        "http_status": {
+            "success": false
+        }
+
+    }
+
+}

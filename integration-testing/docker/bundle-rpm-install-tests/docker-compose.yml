@@ -1,0 +1,32 @@
+version: '3.5'
+services:
+  centos_clean:
+    container_name: rpm-install-transient
+    image: perfsonar/dev-centos-clean:latest
+    privileged: true
+    build:
+        context: .
+        dockerfile: Dockerfile
+        #args:
+        #    repos:
+        #        - perfsonar-tools
+        #        - perfsonar-testpoint
+    tmpfs: 
+       - /run
+       - /tmp
+    volumes:
+       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    networks:
+       - bundle_testing
+    ports:
+       - "8443:443"
+    ulimits:
+       nproc: 65535
+       nofile:
+           soft: 20000
+           hard: 40000
+
+networks:
+  bundle_testing:
+    name: bundle_testing
+    driver: bridge

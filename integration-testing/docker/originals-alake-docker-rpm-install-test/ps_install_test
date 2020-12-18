@@ -1,0 +1,44 @@
+#!/bin/bash
+
+####
+# ps_install_test
+# Usage: ps_install_test PACKAGE REPO [REPO..]
+# Description: Given a package install from repo, then optionally switch to 
+#     other repos listed in order and update
+####
+
+#exit on errors
+set -e
+
+#Globals
+YUM_REPO="/etc/yum.repos.d"
+
+#get the package
+PKG=$1; shift
+if [ -z "$PKG" ]; then
+    echo "No $PKG specified"
+fi
+
+#iterate through remaining
+install_type="install"
+for repo in "$@" 
+do
+    #Disable all repos
+    sed -i 's/enabled = 1/enabled = 0/' ${YUM_REPO}/perfSONA*.repo
+
+    #enable repo
+    REPO_FILE="perfSONAR-${repo}.repo"
+    if [ "${repo}" == "prod" ]; then
+        REPO_FILE="perfSONAR.repo"
+    fi
+    sed -i 's/enabled = 0/enabled = 1/' ${YUM_REPO}/${REPO_FILE}
+    yum clean all
+
+    #install bundle
+    if [ "$install_type" == "install" ]; then
+        yum install -y $PKG
+        install_type="update"
+    else
+        yum update -y
+    fi
+done
