@@ -25,6 +25,8 @@ RUN apt-get install -y wget
 RUN apt-get install -y gnupg
 
 RUN wget -qO - http://downloads.perfsonar.net/debian/perfsonar-official.gpg.key | apt-key add -
+RUN wget -qO - http://downloads.perfsonar.net/debian/perfsonar-snapshot.gpg.key | apt-key add -
+
 #RUN wget http://downloads.perfsonar.net/debian/perfsonar-release.list
 
 #shared volumes

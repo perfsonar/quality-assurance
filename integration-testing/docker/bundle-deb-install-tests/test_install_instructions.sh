@@ -29,14 +29,15 @@ fi
 
 echo "REPO: $REPO"
 
-#declare -a BUNDLES=("perfsonar-tools")
-declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
+declare -a BUNDLES=("perfsonar-testpoint")
+#declare -a BUNDLES=("perfsonar-core")
+#declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
 
 TEXT_STATUS=""
 OUT=""
 docker-compose down
 docker-compose build --no-cache --force-rm debian_clean
-#docker rm -f install-single-sanity
+docker rm -f install-single-sanity
 for BUNDLE in ${BUNDLES[@]}; do
     echo "BUILD BUNDLE $BUNDLE"
     docker-compose up -d
@@ -48,7 +49,7 @@ for BUNDLE in ${BUNDLES[@]}; do
     docker-compose exec debian_clean /usr/bin/ps_install_bundle.sh "$BUNDLE" "$REPO"
     STATUS=$?
     echo "LABEL: $LABEL"
-    #docker run --privileged --name install-single-sanity --network bundle_testing -v /data/sanity/single-sanity.pl:/app/single-sanity.pl --rm single-sanity $CONTAINER $BUNDLE $REPO
+    docker run --privileged --name install-single-sanity --network bundle_testing --rm single-sanity $CONTAINER $BUNDLE $REPO
     SERVICE_STATUS=$?
     OUT+="\n"
     echo "LABEL: $LABEL"

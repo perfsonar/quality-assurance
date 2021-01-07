@@ -69,6 +69,8 @@ my @addresses = ();
 
 my $address = $ARGV[0] or die "Error running; $!\n";
 
+warn "address " . Dumper $address;
+
 my $bundle = $ARGV[1];
 my $repo = $ARGV[2];
 
