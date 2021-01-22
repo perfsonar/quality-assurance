@@ -19,13 +19,14 @@ RUN cd /etc/apt/sources.list.d/
 #RUN apt list installed
 
 # update apt cache
-RUN apt-get update
+RUN apt-get -y update
+RUN apt-get -y install apt-utils
 
-RUN apt-get install -y wget
-RUN apt-get install -y gnupg
-
-RUN wget -qO - http://downloads.perfsonar.net/debian/perfsonar-official.gpg.key | apt-key add -
-RUN wget -qO - http://downloads.perfsonar.net/debian/perfsonar-snapshot.gpg.key | apt-key add -
+# RUN apt-get install -y wget
+# #RUN apt-get install -y gnupg
+# 
+# RUN wget -qO - http://downloads.perfsonar.net/debian/perfsonar-official.gpg.key | apt-key add -
+# RUN wget -qO - http://downloads.perfsonar.net/debian/perfsonar-snapshot.gpg.key | apt-key add -
 
 #RUN wget http://downloads.perfsonar.net/debian/perfsonar-release.list
 

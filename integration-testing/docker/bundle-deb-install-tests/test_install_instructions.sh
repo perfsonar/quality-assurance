@@ -30,8 +30,9 @@ fi
 echo "REPO: $REPO"
 
 #declare -a BUNDLES=("perfsonar-testpoint")
-#declare -a BUNDLES=("perfsonar-core")
-declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
+declare -a BUNDLES=("perfsonar-core")
+#declare -a BUNDLES=("perfsonar-testpoint", "perfsonar-core")
+#declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
 
 TEXT_STATUS=""
 OUT=""
@@ -46,10 +47,10 @@ for BUNDLE in ${BUNDLES[@]}; do
     LABEL="$BUNDLE-$REPO"
     CONTAINER="deb-install-transient"
     echo "CONTAINER: $CONTAINER"
-    docker-compose exec debian_clean /usr/bin/ps_install_bundle.sh "$BUNDLE" "$REPO"
+    docker-compose exec --privileged debian_clean /usr/bin/ps_install_bundle.sh "$BUNDLE" "$REPO"
     STATUS=$?
     echo "LABEL: $LABEL"
-    docker run --privileged --name install-single-sanity --network bundle_testing --rm single-sanity $CONTAINER $BUNDLE $REPO
+    #docker run --privileged --name install-single-sanity --network bundle_testing --rm single-sanity $CONTAINER $BUNDLE $REPO
     SERVICE_STATUS=$?
     OUT+="\n"
     echo "LABEL: $LABEL"
@@ -63,6 +64,8 @@ for BUNDLE in ${BUNDLES[@]}; do
     else
         echo "$BUNDLE install FAILED!"
         TEXT_STATUS+="$BUNDLE install FAILED!\n"
+        TEXT_STATUS+="QUITTING ... \n"
+        exit
     fi
     if [ "$SERVICE_STATUS" -eq "0" ]; then
         echo "$BUNDLE service checks RAN OK!"
