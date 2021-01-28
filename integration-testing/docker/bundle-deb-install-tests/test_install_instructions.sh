@@ -4,14 +4,14 @@
 # test_install_instructions.sh
 # REQUIRES:
 #  - jq
-#  - single-sanity to be built on the same host
-# This script is designed to test the rpm bundle installation process
+#  - single-sanity to be built on the same host, if it's enabled
+# This script is designed to test the deb bundle installation process
 # documented on the perfsonar docs site:
-# http://docs.perfsonar.net/install_centos.html
+# http://docs.perfsonar.net/install_debian.html 
 # The steps in the script recreate what the instructions ask for, but if
 # the instructions are changed, this script will need to be updated to match
 # Can optionally specify a repo to use. By default, uses the production repo. 
-# Debian Options:
+# Debian repo Options:
 # - perfsonar-release 
 # - perfsonar-patch-snapshot
 # - perfsonar-minor-snapshot
@@ -29,9 +29,16 @@ fi
 
 echo "REPO: $REPO"
 
+# mj82 note:
+# Currently (as of 01/27/2021), the bundles that don't include
+# esmond work OK, but those that do have esmond error out
+# when installing
+
+# DECLARE WHICH BUNDLE(S) TO INSTALL
+
 #declare -a BUNDLES=("perfsonar-testpoint")
-declare -a BUNDLES=("perfsonar-core")
-#declare -a BUNDLES=("perfsonar-testpoint", "perfsonar-core")
+#declare -a BUNDLES=("perfsonar-core")
+declare -a BUNDLES=("perfsonar-tools" "perfsonar-core")
 #declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
 
 TEXT_STATUS=""
@@ -51,7 +58,8 @@ for BUNDLE in ${BUNDLES[@]}; do
     STATUS=$?
     echo "LABEL: $LABEL"
     #docker run --privileged --name install-single-sanity --network bundle_testing --rm single-sanity $CONTAINER $BUNDLE $REPO
-    SERVICE_STATUS=$?
+    #SERVICE_STATUS=$?
+    SERVICE_STATUS=1
     OUT+="\n"
     echo "LABEL: $LABEL"
     echo -e "OUT:\n$OUT\n"
@@ -65,7 +73,7 @@ for BUNDLE in ${BUNDLES[@]}; do
         echo "$BUNDLE install FAILED!"
         TEXT_STATUS+="$BUNDLE install FAILED!\n"
         TEXT_STATUS+="QUITTING ... \n"
-        exit
+#        exit
     fi
     if [ "$SERVICE_STATUS" -eq "0" ]; then
         echo "$BUNDLE service checks RAN OK!"

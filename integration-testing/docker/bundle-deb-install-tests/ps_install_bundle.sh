@@ -39,18 +39,16 @@ echo "Executing 'apt-get -y update'"
 apt-get -y update
 
 #CMD="DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install -y \"$BUNDLE\""
+
 CMD="/usr/bin/apt-get install -y $BUNDLE"
 
 
-
-
-
 #echo "Executing apt-get -y install \"$BUNDLE\""
-#echo "Executing '$CMD'"
+echo "Executing '$CMD'"
 
-#`$CMD`
+eval $CMD
 
 # TODO: trying force-yes, probably don't want this
 #apt-get -y install "$BUNDLE"
 
-DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install -y $BUNDLE
+#DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install -y $BUNDLE
