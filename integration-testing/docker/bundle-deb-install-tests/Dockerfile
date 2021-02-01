@@ -14,13 +14,13 @@ RUN chmod 755 /usr/bin/ps_install_bundle.sh
 RUN dpkg -l
 
 # Configure APT
-RUN cd /etc/apt/sources.list.d/
+# RUN cd /etc/apt/sources.list.d/
 # TODO: need sudo for wget calls?
 #RUN apt list installed
 
 # update apt cache
-RUN apt-get -y update
-RUN apt-get -y install apt-utils
+# RUN apt-get -y update
+# RUN apt-get -y install apt-utils
 
 # RUN apt-get install -y wget
 # #RUN apt-get install -y gnupg
@@ -36,7 +36,9 @@ VOLUME /sys/fs/cgroup
 #Let docker know that pscheduler listens on 443
 EXPOSE 443
 
-#Keep container running
-#CMD tail -f /dev/null
-# CMD ["/usr/sbin/init"]
+# WORK AROUND A DEBIAN DOCKER ISSUE
+# https://stackoverflow.com/questions/46247032/how-to-solve-invoke-rc-d-policy-rc-d-denied-execution-of-start-when-building
+RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
+
+# start systemd
 CMD ["/lib/systemd/systemd"]

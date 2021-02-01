@@ -38,7 +38,8 @@ echo "REPO: $REPO"
 
 #declare -a BUNDLES=("perfsonar-testpoint")
 #declare -a BUNDLES=("perfsonar-core")
-declare -a BUNDLES=("perfsonar-tools" "perfsonar-core")
+declare -a BUNDLES=("perfsonar-toolkit")
+#declare -a BUNDLES=("perfsonar-tools" "perfsonar-core")
 #declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
 
 TEXT_STATUS=""
@@ -57,9 +58,9 @@ for BUNDLE in ${BUNDLES[@]}; do
     docker-compose exec --privileged debian_clean /usr/bin/ps_install_bundle.sh "$BUNDLE" "$REPO"
     STATUS=$?
     echo "LABEL: $LABEL"
-    #docker run --privileged --name install-single-sanity --network bundle_testing --rm single-sanity $CONTAINER $BUNDLE $REPO
-    #SERVICE_STATUS=$?
-    SERVICE_STATUS=1
+    docker run --privileged --name install-single-sanity --network bundle_testing --rm single-sanity $CONTAINER $BUNDLE $REPO
+    SERVICE_STATUS=$?
+    #SERVICE_STATUS=1
     OUT+="\n"
     echo "LABEL: $LABEL"
     echo -e "OUT:\n$OUT\n"
