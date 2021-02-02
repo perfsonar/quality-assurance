@@ -1,7 +1,9 @@
 # sanity-checking
 
-##TODO:
-update/generalize paths
+## TODO:
+ - [ ] Add high-level Overview
+ - [ ] update/generalize paths
+
 
 Building:
 ```
