@@ -11,8 +11,6 @@ RUN echo "REPO!!!: $repo"
 COPY ./ps_install_bundle.sh /usr/bin/ps_install_bundle.sh
 RUN chmod 755 /usr/bin/ps_install_bundle.sh
 
-RUN dpkg -l
-
 # Configure APT
 # RUN cd /etc/apt/sources.list.d/
 # TODO: need sudo for wget calls?
@@ -24,7 +22,7 @@ RUN dpkg -l
 
 # RUN apt-get install -y wget
 # #RUN apt-get install -y gnupg
-# 
+#
 # RUN wget -qO - http://downloads.perfsonar.net/debian/perfsonar-official.gpg.key | apt-key add -
 # RUN wget -qO - http://downloads.perfsonar.net/debian/perfsonar-snapshot.gpg.key | apt-key add -
 

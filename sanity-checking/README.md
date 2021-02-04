@@ -2,7 +2,8 @@
 
 ## TODO:
  - [ ] Add high-level Overview
- - [ ] update/generalize paths
+ - [ ] Add possible future directions
+ - [ ] Update/generalize paths
 
 
 Building:
