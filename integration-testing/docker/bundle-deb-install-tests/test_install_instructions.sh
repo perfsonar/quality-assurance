@@ -7,12 +7,12 @@
 #  - single-sanity to be built on the same host, if it's enabled
 # This script is designed to test the deb bundle installation process
 # documented on the perfsonar docs site:
-# http://docs.perfsonar.net/install_debian.html 
+# http://docs.perfsonar.net/install_debian.html
 # The steps in the script recreate what the instructions ask for, but if
 # the instructions are changed, this script will need to be updated to match
-# Can optionally specify a repo to use. By default, uses the production repo. 
+# Can optionally specify a repo to use. By default, uses the production repo.
 # Debian repo Options:
-# - perfsonar-release 
+# - perfsonar-release
 # - perfsonar-patch-snapshot
 # - perfsonar-minor-snapshot
 # - perfsonar-patch-staging
@@ -38,10 +38,10 @@ echo "REPO: $REPO"
 
 #declare -a BUNDLES=("perfsonar-testpoint")
 #declare -a BUNDLES=("perfsonar-core")
-declare -a BUNDLES=("perfsonar-toolkit")
+#declare -a BUNDLES=("perfsonar-toolkit")
 #declare -a BUNDLES=("perfsonar-tools" "perfsonar-core")
 #declare -a BUNDLES=("perfsonar-tools" "perfsonar-toolkit")
-#declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
+declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
 
 TEXT_STATUS=""
 OUT=""
@@ -51,8 +51,6 @@ docker rm -f install-single-sanity
 for BUNDLE in ${BUNDLES[@]}; do
     echo "BUILD BUNDLE $BUNDLE"
     docker-compose up -d
-    #CONTAINER="$BUNDLE-$REPO"
-    #CONTAINER="$BUNDLE"
     LABEL="$BUNDLE-$REPO"
     CONTAINER="deb-install-transient"
     echo "CONTAINER: $CONTAINER"
@@ -93,4 +91,3 @@ done
     echo -e $OUT | jq .
 
 echo -e $TEXT_STATUS
-

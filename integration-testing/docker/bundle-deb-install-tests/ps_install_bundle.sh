@@ -6,7 +6,6 @@ mount /tmp -o remount,exec
 DEBIAN_FRONTEND=noninteractive
 echo "Set DEBIAN_FRONTEND: $DEBIAN_FRONTEND"
 
-#echo "Installing apt-utils"
 apt-get -y install apt-utils
 
 echo "Executing 'apt-get -y update'"
@@ -38,17 +37,8 @@ fi
 echo "Executing 'apt-get -y update'"
 apt-get -y update
 
-#CMD="DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install -y \"$BUNDLE\""
-
 CMD="/usr/bin/apt-get install -y $BUNDLE"
 
-
-#echo "Executing apt-get -y install \"$BUNDLE\""
 echo "Executing '$CMD'"
 
 eval $CMD
-
-# TODO: trying force-yes, probably don't want this
-#apt-get -y install "$BUNDLE"
-
-#DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install -y $BUNDLE
