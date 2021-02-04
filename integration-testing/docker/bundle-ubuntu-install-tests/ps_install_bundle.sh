@@ -1,5 +1,8 @@
 #!/bin/bash
 
+DEBIAN_FRONTEND=noninteractive
+
+printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
 
 BUNDLE=$1
 if [ -n "$2" ]; then

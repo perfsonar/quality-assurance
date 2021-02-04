@@ -1,3 +1,5 @@
+#FROM jrei/systemd-ubuntu:18.04
+#FROM jrei/systemd-ubuntu:16.04
 FROM jrei/systemd-debian:9
 ENV container docker
 ARG bundle
@@ -6,6 +8,8 @@ ARG repo
 RUN echo "BUNDLE!!!: $bundle"
 
 RUN echo "REPO!!!: $repo"
+
+RUN add-apt-repository universe
 
 #Copy test script
 COPY ./ps_install_bundle.sh /usr/bin/ps_install_bundle.sh

@@ -40,6 +40,7 @@ echo "REPO: $REPO"
 #declare -a BUNDLES=("perfsonar-core")
 declare -a BUNDLES=("perfsonar-toolkit")
 #declare -a BUNDLES=("perfsonar-tools" "perfsonar-core")
+#declare -a BUNDLES=("perfsonar-tools" "perfsonar-toolkit")
 #declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
 
 TEXT_STATUS=""
