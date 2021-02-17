@@ -1,46 +1,74 @@
-#FROM jrei/systemd-ubuntu:18.04
-#FROM jrei/systemd-ubuntu:16.04
-FROM jrei/systemd-debian:9
+# perfSONAR install ready image
+
+# OS image to use as a base
+ARG OSimage=jrei/systemd-debian:9
+FROM $OSimage
+
+# Some sane defaults
 ENV container docker
-ARG bundle
-ARG repo
+ENV LC_ALL C
+ENV DEBIAN_FRONTEND noninteractive
 
-RUN echo "BUNDLE!!!: $bundle"
+# perfSONAR repository needs to be given as argument
+ARG REPO
+RUN echo "OSimage is: $OSimage"
+RUN echo "REPO is: $REPO"
 
-RUN echo "REPO!!!: $repo"
+# Use a proxy to download packages
+ENV http_proxy=http://172.17.0.1:3128 \
+    https_proxy=http://172.17.0.1:3128 \
+    no_proxy=localhost,127.0.0.1
 
-RUN add-apt-repository universe
+# Update apt cache, install some packages and do some cleanup
+RUN apt-get update && apt-get install -y \
+        apt-utils \
+        gnupg \
+        systemd \
+        systemd-sysv \
+        wget && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-#Copy test script
-COPY ./ps_install_bundle.sh /usr/bin/ps_install_bundle.sh
-RUN chmod 755 /usr/bin/ps_install_bundle.sh
+# To make systemd work properly
+# From https://github.com/j8r/dockerfiles/tree/master/systemd
+RUN cd /lib/systemd/system/sysinit.target.wants/ \
+    && ls | grep -v systemd-tmpfiles-setup | xargs rm -f $1
 
-# Configure APT
-# RUN cd /etc/apt/sources.list.d/
-# TODO: need sudo for wget calls?
-#RUN apt list installed
+# List for D9, D10, U16, U18 and U20
+RUN rm -f /lib/systemd/system/multi-user.target.wants/* \
+    /etc/systemd/system/*.wants/* \
+    /lib/systemd/system/anaconda.target.wants/* \
+    /lib/systemd/system/basic.target.wants/* \
+    /lib/systemd/system/local-fs.target.wants/* \
+    /lib/systemd/system/plymouth* \
+    /lib/systemd/system/sockets.target.wants/*udev* \
+    /lib/systemd/system/sockets.target.wants/*initctl* \
+    /lib/systemd/system/sysinit.target.wants/systemd-tmpfiles-setup* \
+    /lib/systemd/system/systemd-update-utmp*
 
-# update apt cache
-# RUN apt-get -y update
-# RUN apt-get -y install apt-utils
-
-# RUN apt-get install -y wget
-# #RUN apt-get install -y gnupg
-#
-# RUN wget -qO - http://downloads.perfsonar.net/debian/perfsonar-official.gpg.key | apt-key add -
-# RUN wget -qO - http://downloads.perfsonar.net/debian/perfsonar-snapshot.gpg.key | apt-key add -
-
-#RUN wget http://downloads.perfsonar.net/debian/perfsonar-release.list
-
-#shared volumes
+# Shared volume needed for systemd
 VOLUME /sys/fs/cgroup
 
-#Let docker know that pscheduler listens on 443
+# Let docker know that pscheduler listens on 443
 EXPOSE 443
 
-# WORK AROUND A DEBIAN DOCKER ISSUE
+# WORK AROUND A DEBIAN/UBUNTU DOCKER ISSUE
 # https://stackoverflow.com/questions/46247032/how-to-solve-invoke-rc-d-policy-rc-d-denied-execution-of-start-when-building
 RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
 
-# start systemd
+# Configure perfSONAR repository and GPG key
+RUN echo "REPO!!!: $REPO"
+RUN if [ "$REPO" = "perfsonar-release" ] ; \
+    then wget -qO - http://downloads.perfsonar.net/debian/perfsonar-official.gpg.key | apt-key add - ; \
+    else wget -qO - http://downloads.perfsonar.net/debian/perfsonar-snapshot.gpg.key | apt-key add - ; \
+    fi
+RUN wget -P /etc/apt/sources.list.d/ http://downloads.perfsonar.net/debian/$REPO.list
+
+# Copy test script
+COPY ./ps_install_bundle.sh /usr/bin/ps_install_bundle.sh
+RUN chmod 755 /usr/bin/ps_install_bundle.sh
+
+# Start systemd
 CMD ["/lib/systemd/systemd"]
+
