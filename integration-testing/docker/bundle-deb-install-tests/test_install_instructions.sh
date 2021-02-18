@@ -20,8 +20,7 @@
 #######
 
 # default OS, if blank/not specified, Debian 9 is used
-declare -a OSimages=("jrei/systemd-debian:9" "jrei/systemd-debian:10" "jrei/systemd-ubuntu:16.04" "jrei/systemd-ubuntu:18.04")
-#declare -a OSimages=("jrei/systemd-debian:9")
+declare -a OSimages=("debian:stretch" "debian:buster" "ubuntu:xenial" "ubuntu:bionic")
 
 # default repo, if blank/not specified, PRODUCTION is used
 REPO="perfsonar-release"
@@ -32,11 +31,7 @@ if [ -n "$1" ]; then
 fi
 
 # DECLARE WHICH BUNDLE(S) TO INSTALL
-
 #declare -a BUNDLES=("perfsonar-testpoint")
-#declare -a BUNDLES=("perfsonar-core")
-#declare -a BUNDLES=("perfsonar-toolkit")
-#declare -a BUNDLES=("perfsonar-tools")
 #declare -a BUNDLES=("perfsonar-tools" "perfsonar-toolkit")
 declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
 
@@ -46,7 +41,7 @@ docker-compose down
 # Loop on all OS we want to test
 for OSimage in ${OSimages[@]}; do
     echo -e "OSimage: $OSimage - REPO: $REPO\n"
-    TEXT_STATUS+="OSimage: $OSimage - REPO: $REPO\n"
+    TEXT_STATUS+="\nOSimage: $OSimage - REPO: $REPO\n"
     export OSimage REPO
     # First we build our image
     # TODO: should move to --no-cache when run on Jenkins or else?
@@ -55,13 +50,11 @@ for OSimage in ${OSimages[@]}; do
     # Loop on all bundles we want to test
     for BUNDLE in ${BUNDLES[@]}; do
         docker-compose down
-        echo "TEST BUNDLE $BUNDLE"
         docker-compose up -d
-        LABEL="$BUNDLE on $REPO"
-        CONTAINER="$OSimage_$REPO"
+        LABEL="$BUNDLE from $REPO on $OSimage"
+        echo -e "\n===== INSTALLING $LABEL =====\n"
         docker-compose exec --privileged install_test /usr/bin/ps_install_bundle.sh "$BUNDLE"
         STATUS=$?
-
         echo "$BUNDLE Tried to install; status: $STATUS"
         if [ "$STATUS" -eq "0" ]; then
             echo "$BUNDLE install SUCCEDED!"
@@ -72,7 +65,7 @@ for OSimage in ${OSimages[@]}; do
             TEXT_STATUS+="QUITTING ... \n"
             continue
         fi
-        echo -e "\nLABEL: $LABEL\n"
+        echo -e "\n===== TESTING $LABEL =====\n"
         docker run --privileged --name install-single-sanity --network bundle_testing --rm single-sanity install-test $BUNDLE $REPO
         SERVICE_STATUS=$?
         # TODO: try to capture output from run

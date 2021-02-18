@@ -1,7 +1,7 @@
 # perfSONAR install ready image
 
 # OS image to use as a base
-ARG OSimage=jrei/systemd-debian:9
+ARG OSimage=debian:stretch
 FROM $OSimage
 
 # Some sane defaults
@@ -14,10 +14,10 @@ ARG REPO
 RUN echo "OSimage is: $OSimage"
 RUN echo "REPO is: $REPO"
 
-# Use a proxy to download packages
-ENV http_proxy=http://172.17.0.1:3128 \
-    https_proxy=http://172.17.0.1:3128 \
-    no_proxy=localhost,127.0.0.1
+# Use a proxy to download packages, for example https://github.com/sameersbn/docker-squid
+#ENV http_proxy=http://172.17.0.1:3128 \
+#    https_proxy=http://172.17.0.1:3128 \
+#    no_proxy=localhost,127.0.0.1
 
 # Update apt cache, install some packages and do some cleanup
 RUN apt-get update && apt-get install -y \

@@ -12,16 +12,18 @@ if [ "$?" -ne "0" ]; then
     exit 1
 fi
 
-echo -e "\nInstallation of bundle $BUNDLE went fine!\n"
+OS=`awk -F '"' '/PRETTY_NAME/ {print $2}' /etc/os-release`
+echo -e "\nInstallation of bundle $BUNDLE on $OS went fine!\n"
 
 if [[ $BUNDLE =~ perfsonar-(core|testpoint|toolkit) ]]; then
     # Run pscheduler to see if all is fine
     echo "We'll now try to run pscheduler…"
     # Wait a bit so that pScheduler is ready
-    sleep 60
+    sleep 50
     pscheduler troubleshoot
     if [ "$?" -ne "0" ]; then
         # Try a second time as pScheduler might be a bit picky
+        sleep 20
         pscheduler troubleshoot
         if [ "$?" -ne "0" ]; then
             echo -e "\nSomething went wrong with pScheduler\n"
