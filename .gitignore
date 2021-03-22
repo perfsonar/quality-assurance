@@ -35,3 +35,6 @@ inc/
 /*.zip
 .*.swo
 .*.swp
+
+# Temporary logs dir
+logs/

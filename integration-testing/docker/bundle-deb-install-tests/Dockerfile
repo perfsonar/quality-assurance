@@ -11,7 +11,6 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # perfSONAR repository needs to be given as argument
 ARG REPO
-RUN echo "OSimage is: $OSimage"
 RUN echo "REPO is: $REPO"
 
 # Use a proxy to download packages, for example https://github.com/sameersbn/docker-squid
