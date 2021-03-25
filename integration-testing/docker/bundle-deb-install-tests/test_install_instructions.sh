@@ -97,6 +97,8 @@ for OSimage in ${OSimages[@]}; do
     done
 done
 
+echo -e "\nNow stopping containers."
+docker-compose down
 echo -e "OUT:\n$OUT\n"
 echo -e $OUT | jq .
 echo -e $TEXT_STATUS
