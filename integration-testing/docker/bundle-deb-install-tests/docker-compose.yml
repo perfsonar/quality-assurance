@@ -1,4 +1,6 @@
+### Required setup for the install test images.
 # tmpfs and volumes are needed for systemd to work properly
+# ARGS can be setup by the testing script, see README
 version: '3.8'
 services:
   install_test:
@@ -12,6 +14,7 @@ services:
         REPO: "$REPO"
         useproxy: "${useproxy:-no}"
         proxy: "$proxy"
+    image: install_$OSimage_$REPO
     tmpfs:
       - /run
       - /tmp

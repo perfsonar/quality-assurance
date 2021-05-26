@@ -53,7 +53,7 @@ for OSimage in ${OSimages[@]}; do
     export OSimage REPO useproxy
     # First we build our image
     # TODO: should move to --no-cache when run on Jenkins or else?
-    docker-compose build --force-rm install_test
+    docker-compose build --force-rm
     docker rm -f install-single-sanity
     # Loop on all bundles we want to test
     for BUNDLE in ${BUNDLES[@]}; do
@@ -61,8 +61,8 @@ for OSimage in ${OSimages[@]}; do
         docker compose up -d
         LABEL="$BUNDLE FROM $REPO ON $OSimage"
         LOG="${LOGS_PREFIX}_${REPO}_${OSimage}_${BUNDLE}"
-        echo -e "\n\033[1m===== INSTALLING $LABEL =====\033[0m"
-        echo -e "Log to $LOG.log\n"
+        echo -e "\n\033[1m===== INSTALLING ${LABEL} =====\033[0m"
+        echo -e "Log to ${LOG}.log\n"
         docker-compose exec --privileged install_test /usr/bin/ps_install_bundle.sh "$BUNDLE" >> ${LOG}.log
         STATUS=$?
         OUTPUT="$BUNDLE install "

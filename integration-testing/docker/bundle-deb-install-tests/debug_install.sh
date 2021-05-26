@@ -26,7 +26,7 @@ export OSimage REPO
 
 # Prepare Docker setup
 docker compose down
-docker-compose build --force-rm install_test
+docker-compose build --force-rm
 docker rm -f install-single-sanity
 docker compose up -d
 

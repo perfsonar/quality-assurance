@@ -3,12 +3,12 @@
 ### Globally scoped ARG, defined here to be available to use in FROM statements
 # Do we want to use a proxy?
 ARG useproxy=no
+# TODO: move to pS provided base OS image
 # OS image to use as a base
 ARG OSimage=debian:stretch
 FROM ${OSimage} AS base
 
 # Some sane defaults
-ENV container docker
 ENV LC_ALL C
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -58,15 +58,13 @@ RUN rm -f /lib/systemd/system/multi-user.target.wants/* \
 # Shared volume needed for systemd
 VOLUME /sys/fs/cgroup
 
-# Let docker know that pscheduler listens on 443
-EXPOSE 443
-
 # WORK AROUND A DEBIAN/UBUNTU DOCKER ISSUE
 # https://stackoverflow.com/questions/46247032/how-to-solve-invoke-rc-d-policy-rc-d-denied-execution-of-start-when-building
 RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
 
 # Configure perfSONAR repository and GPG key
 ARG REPO
+RUN echo "Adding perfSONAR repository: $REPO"
 RUN if [ "$REPO" = "perfsonar-release" ] ; \
     then curl http://downloads.perfsonar.net/debian/perfsonar-official.gpg.key | apt-key add - ; \
     else curl http://downloads.perfsonar.net/debian/perfsonar-snapshot.gpg.key | apt-key add - ; \
@@ -76,6 +74,9 @@ RUN curl -o /etc/apt/sources.list.d/$REPO.list http://downloads.perfsonar.net/de
 # Copy test script
 COPY ./ps_install_bundle.sh /usr/bin/ps_install_bundle.sh
 RUN chmod 755 /usr/bin/ps_install_bundle.sh
+
+# Let docker know that pscheduler listens on 443
+EXPOSE 443
 
 # Start systemd
 CMD ["/lib/systemd/systemd"]
