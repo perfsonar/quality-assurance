@@ -63,7 +63,7 @@ for OSimage in ${OSimages[@]}; do
         LOG="${LOGS_PREFIX}_${REPO}_${OSimage}_${BUNDLE}"
         echo -e "\n\033[1m===== INSTALLING ${LABEL} =====\033[0m"
         echo -e "Log to ${LOG}.log\n"
-        docker-compose exec --privileged install_test /usr/bin/ps_install_bundle.sh "$BUNDLE" >> ${LOG}.log
+        docker-compose exec --privileged install_test /usr/local/bin/ps_install_bundle.sh "$BUNDLE" >> ${LOG}.log
         STATUS=$?
         OUTPUT="$BUNDLE install "
         if [ "$STATUS" -eq "0" ]; then

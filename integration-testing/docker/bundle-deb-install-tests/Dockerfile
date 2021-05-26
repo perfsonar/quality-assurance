@@ -72,8 +72,8 @@ RUN if [ "$REPO" = "perfsonar-release" ] ; \
 RUN curl -o /etc/apt/sources.list.d/$REPO.list http://downloads.perfsonar.net/debian/$REPO.list
 
 # Copy test script
-COPY ./ps_install_bundle.sh /usr/bin/ps_install_bundle.sh
-RUN chmod 755 /usr/bin/ps_install_bundle.sh
+COPY ./ps_install_bundle.sh /usr/local/bin/ps_install_bundle.sh
+RUN chmod 755 /usr/local/bin/ps_install_bundle.sh
 
 # Let docker know that pscheduler listens on 443
 EXPOSE 443

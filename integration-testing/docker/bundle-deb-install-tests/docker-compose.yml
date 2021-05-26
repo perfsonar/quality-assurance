@@ -14,7 +14,7 @@ services:
         REPO: "$REPO"
         useproxy: "${useproxy:-no}"
         proxy: "$proxy"
-    image: install_$OSimage_$REPO
+    image: $REPO/$OSimage
     tmpfs:
       - /run
       - /tmp
