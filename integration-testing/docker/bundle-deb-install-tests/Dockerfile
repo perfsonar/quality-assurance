@@ -1,30 +1,39 @@
 # perfSONAR install ready image
 
+### Globally scoped ARG, defined here to be available to use in FROM statements
+# Do we want to use a proxy?
+ARG useproxy=no
 # OS image to use as a base
 ARG OSimage=debian:stretch
-FROM $OSimage
+FROM ${OSimage} AS base
 
 # Some sane defaults
 ENV container docker
 ENV LC_ALL C
 ENV DEBIAN_FRONTEND noninteractive
 
-# perfSONAR repository needs to be given as argument
-ARG REPO
-RUN echo "REPO is: $REPO"
+# If you want to use a proxy to speed up download both at build time and test time (docker run)
+# Trick built on top of https://medium.com/@tonistiigi/advanced-multi-stage-build-patterns-6f741b852fae
+FROM base AS proxy-yes
+ARG proxy
+ENV http_proxy=http://${proxy}
+ENV https_proxy=https://${proxy}
+ENV no_proxy=localhost,127.0.0.1
 
-# Use a proxy to download packages, for example https://github.com/sameersbn/docker-squid
-#ENV http_proxy=http://172.17.0.1:3128 \
-#    https_proxy=http://172.17.0.1:3128 \
-#    no_proxy=localhost,127.0.0.1
+FROM base AS proxy-no
+ENV http_proxy=
+ENV https_proxy=
+ENV no_proxy=
 
 # Update apt cache, install some packages and do some cleanup
+FROM proxy-${useproxy} AS install-image
+RUN echo "Install image proxy is: ${https_proxy:-none}"
 RUN apt-get update && apt-get install -y \
         apt-utils \
+        curl \
         gnupg \
         systemd \
-        systemd-sysv \
-        wget && \
+        systemd-sysv && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -57,12 +66,12 @@ EXPOSE 443
 RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
 
 # Configure perfSONAR repository and GPG key
-RUN echo "REPO!!!: $REPO"
+ARG REPO
 RUN if [ "$REPO" = "perfsonar-release" ] ; \
-    then wget -qO - http://downloads.perfsonar.net/debian/perfsonar-official.gpg.key | apt-key add - ; \
-    else wget -qO - http://downloads.perfsonar.net/debian/perfsonar-snapshot.gpg.key | apt-key add - ; \
+    then curl http://downloads.perfsonar.net/debian/perfsonar-official.gpg.key | apt-key add - ; \
+    else curl http://downloads.perfsonar.net/debian/perfsonar-snapshot.gpg.key | apt-key add - ; \
     fi
-RUN wget -P /etc/apt/sources.list.d/ http://downloads.perfsonar.net/debian/$REPO.list
+RUN curl -o /etc/apt/sources.list.d/$REPO.list http://downloads.perfsonar.net/debian/$REPO.list
 
 # Copy test script
 COPY ./ps_install_bundle.sh /usr/bin/ps_install_bundle.sh

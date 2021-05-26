@@ -10,18 +10,13 @@ services:
       args:
         OSimage: "$OSimage"
         REPO: "$REPO"
+        useproxy: "${useproxy:-no}"
+        proxy: "$proxy"
     tmpfs:
       - /run
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    networks:
-      - bundle_testing
     ports:
        - "8443:443"
-
-networks:
-  bundle_testing:
-    name: bundle_testing
-    driver: bridge
 
