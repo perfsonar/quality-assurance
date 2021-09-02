@@ -45,7 +45,7 @@ else
     docker run --privileged --name install-single-sanity --network bundle_testing --rm single-sanity install-test $BUNDLE $REPO
     if [ "$?" -ne  "0" ]; then
         # Something failed, we open a shell in the container to diagnose
-        echo "Testing failed, we'll get you a shell…"
+        echo "It seems like testing failed, we'll get you a shell to debug further…"
         docker cp ./debug-pscheduler-api.sh install-test:/usr/local/bin/
         docker-compose exec --privileged install_test apt-get install -y less vim
         docker-compose exec --privileged install_test bash

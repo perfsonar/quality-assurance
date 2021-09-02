@@ -21,7 +21,7 @@
 
 # Defaults
 REPO="perfsonar-release"
-declare -a OSimages=("debian:stretch" "debian:buster" "ubuntu:xenial" "ubuntu:bionic")
+declare -a OSimages=("debian:stretch" "debian:buster" "ubuntu:xenial" "ubuntu:bionic" "ubuntu:focal")
 declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
 
 # Parse CLI args
@@ -45,6 +45,16 @@ LOGS_PREFIX="logs/ps_install"
 mkdir -p ${LOGS_PREFIX%%/*}
 rm -f ${LOGS_PREFIX}_*.log
 docker compose down
+
+# Verify we have the single-sanity image available
+# TODO: should be moved inside the docker-compose setup
+if ! docker images | grep -q single-sanity; then
+    echo -e "\n\033[1;35mThe single-sanity image doesn't seem to be available, I'll try to build it.\033[0m\n"
+    MYPWD=`pwd`
+    cd ../../../sanity-checking/
+    docker build -t single-sanity -f Dockerfile-single .
+    cd $MYPWD
+fi
 
 # Loop on all OS we want to test
 for OSimage in ${OSimages[@]}; do
@@ -93,7 +103,7 @@ for OSimage in ${OSimages[@]}; do
         else
             OUTPUT+="\033[1;31mFAILED TO RUN!\033[0m"
         fi
-        echo -e "$OUTPUT"
+        echo -e "$OUTPUT\n"
         TEXT_STATUS+="$OUTPUT\n"
     done
 done

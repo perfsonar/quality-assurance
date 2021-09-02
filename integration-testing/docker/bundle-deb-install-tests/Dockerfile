@@ -9,8 +9,8 @@ ARG OSimage=debian:stretch
 FROM ${OSimage} AS base
 
 # Some sane defaults
-ENV LC_ALL C
-ENV DEBIAN_FRONTEND noninteractive
+ENV LC_ALL=C
+ENV DEBIAN_FRONTEND=noninteractive
 
 # If you want to use a proxy to speed up download both at build time and test time (docker run)
 # Trick built on top of https://medium.com/@tonistiigi/advanced-multi-stage-build-patterns-6f741b852fae
@@ -65,11 +65,11 @@ RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
 # Configure perfSONAR repository and GPG key
 ARG REPO
 RUN echo "Adding perfSONAR repository: $REPO"
-RUN if [ "$REPO" = "perfsonar-release" ] ; \
+RUN curl -o /etc/apt/sources.list.d/$REPO.list http://downloads.perfsonar.net/debian/$REPO.list
+RUN if grep -qE "perfsonar-(release|[0-9]\.[0-9]) " /etc/apt/sources.list.d/$REPO.list; \
     then curl http://downloads.perfsonar.net/debian/perfsonar-official.gpg.key | apt-key add - ; \
     else curl http://downloads.perfsonar.net/debian/perfsonar-snapshot.gpg.key | apt-key add - ; \
     fi
-RUN curl -o /etc/apt/sources.list.d/$REPO.list http://downloads.perfsonar.net/debian/$REPO.list
 
 # Copy test script
 COPY ./ps_install_bundle.sh /usr/local/bin/ps_install_bundle.sh
