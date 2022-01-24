@@ -2,7 +2,7 @@
 
 ### Globally scoped ARG, defined here to be available to use in FROM statements
 # Do we want to use a proxy?
-ARG useproxy=no
+ARG useproxy=without
 # TODO: move to pS provided base OS image
 # OS image to use as a base
 ARG OSimage=debian:stretch
@@ -14,19 +14,19 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # If you want to use a proxy to speed up download both at build time and test time (docker run)
 # Trick built on top of https://medium.com/@tonistiigi/advanced-multi-stage-build-patterns-6f741b852fae
-FROM base AS proxy-yes
+FROM base AS base-with-proxy
 ARG proxy
 ENV http_proxy=http://${proxy}
 ENV https_proxy=https://${proxy}
 ENV no_proxy=localhost,127.0.0.1
 
-FROM base AS proxy-no
+FROM base AS base-without-proxy
 ENV http_proxy=
 ENV https_proxy=
 ENV no_proxy=
 
 # Update apt cache, install some packages and do some cleanup
-FROM proxy-${useproxy} AS install-image
+FROM base-${useproxy}-proxy AS install-image
 RUN echo "Install image proxy is: ${https_proxy:-none}"
 RUN apt-get update && apt-get install -y \
         apt-utils \
@@ -40,9 +40,6 @@ RUN apt-get update && apt-get install -y \
 
 # To make systemd work properly
 # From https://github.com/j8r/dockerfiles/tree/master/systemd
-RUN cd /lib/systemd/system/sysinit.target.wants/ \
-    && ls | grep -v systemd-tmpfiles-setup | xargs rm -f $1
-
 # List for D9, D10, U16, U18 and U20
 RUN rm -f /lib/systemd/system/multi-user.target.wants/* \
     /etc/systemd/system/*.wants/* \
@@ -55,8 +52,6 @@ RUN rm -f /lib/systemd/system/multi-user.target.wants/* \
     /lib/systemd/system/sysinit.target.wants/systemd-tmpfiles-setup* \
     /lib/systemd/system/systemd-update-utmp*
 
-# Shared volume needed for systemd
-VOLUME /sys/fs/cgroup
 
 # WORK AROUND A DEBIAN/UBUNTU DOCKER ISSUE
 # https://stackoverflow.com/questions/46247032/how-to-solve-invoke-rc-d-policy-rc-d-denied-execution-of-start-when-building

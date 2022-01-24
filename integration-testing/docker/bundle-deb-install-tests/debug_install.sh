@@ -23,11 +23,17 @@ fi
 # State what we'll do
 echo -e "\n\033[1m=====\033[0m Testing installation of \033[1m$BUNDLE\033[0m on \033[1m$OSimage\033[0m using \033[1m$REPO\033[0m repository \033[1m=====\033[0m\n"
 export OSimage REPO useproxy
+if [ -n "$proxy" ]; then
+    # If $proxy is set, then we will use it
+    useproxy=with
+else
+    useproxy=without
+fi
 
 # Prepare Docker setup
 docker compose down
 docker-compose build --force-rm
-docker rm -f install-single-sanity
+docker rm -f install-single-sanity > /dev/null 2>&1
 docker compose up -d
 
 # Try the install
@@ -42,7 +48,7 @@ if [ "$?" -ne  "0" ]; then
 else
     # We then try to run the sanity tests
     echo -e "\n\033[1m===== Testing =====\033[0m\n"
-    docker run --privileged --name install-single-sanity --network bundle_testing --rm single-sanity install-test $BUNDLE $REPO
+    docker run --privileged --name install-single-sanity --rm single-sanity install-test $BUNDLE $REPO
     if [ "$?" -ne  "0" ]; then
         # Something failed, we open a shell in the container to diagnose
         echo "It seems like testing failed, we'll get you a shell to debug further…"

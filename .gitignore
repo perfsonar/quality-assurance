@@ -38,3 +38,6 @@ inc/
 
 # Temporary logs dir
 logs/
+
+# MacOS
+.DS_Store

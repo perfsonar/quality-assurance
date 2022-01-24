@@ -1,7 +1,7 @@
 ### Required setup for the install test images.
 # tmpfs and volumes are needed for systemd to work properly
 # ARGS can be setup by the testing script, see README
-version: '3.8'
+version: '3.9'
 services:
   install_test:
     container_name: install-test
@@ -12,14 +12,13 @@ services:
       args:
         OSimage: "$OSimage"
         REPO: "$REPO"
-        useproxy: "${useproxy:-no}"
-        proxy: "$proxy"
+        useproxy: "${useproxy:-without}"
+        proxy: "${proxy:-}"
     image: $REPO/$OSimage
     tmpfs:
       - /run
+      - /run/lock
       - /tmp
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
     ports:
        - "8443:443"
 

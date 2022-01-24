@@ -42,6 +42,12 @@ fi
 TEXT_STATUS=""
 OUT=""
 LOGS_PREFIX="logs/ps_install"
+if [ -n "$proxy" ]; then
+    # If $proxy is set, then we will use it
+    useproxy=with
+else
+    useproxy=without
+fi
 mkdir -p ${LOGS_PREFIX%%/*}
 rm -f ${LOGS_PREFIX}_*.log
 docker compose down
@@ -77,7 +83,7 @@ for OSimage in ${OSimages[@]}; do
         STATUS=$?
         OUTPUT="$BUNDLE install "
         if [ "$STATUS" -eq "0" ]; then
-            OUTPUT+="\033[1;32mSUCCEDED!\033[0m"
+            OUTPUT+="\033[1;32mSUCCEEDED!\033[0m"
         else
             echo "\033[0;31m$BUNDLE failed to install with status: $STATUS\033[0m"
             echo -e "Check the logs and then you can try to debug what went wrong by running:\n./debug_install.sh $REPO $OSimage $BUNDLE"
