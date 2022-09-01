@@ -20,9 +20,11 @@
 #######
 
 # Defaults
-REPO="perfsonar-release"
-declare -a OSimages=("debian:stretch" "debian:buster" "ubuntu:xenial" "ubuntu:bionic" "ubuntu:focal")
-declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
+export REPO="perfsonar-release"
+declare -a OSimages=("debian:buster" "debian:bullseye" "ubuntu:bionic" "ubuntu:focal" "ubuntu:jammy")
+#declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
+# Only testpoint is supported on Debian/Ubuntu for 5.0
+declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint")
 
 # Parse CLI args
 if [ -n "$1" ]; then
@@ -50,7 +52,7 @@ else
 fi
 mkdir -p ${LOGS_PREFIX%%/*}
 rm -f ${LOGS_PREFIX}_*.log
-docker compose down
+OSimage=debian10 docker compose down
 
 # Verify we have the single-sanity image available
 # TODO: should be moved inside the docker-compose setup
@@ -97,7 +99,7 @@ for OSimage in ${OSimages[@]}; do
         fi
         echo -e "\n\033[1m===== TESTING \033[0m$LABEL ====="
         echo -e "Log to ${LOG}_test.log\n"
-        docker run --privileged --name install-single-sanity --rm single-sanity install-test $BUNDLE $REPO >> ${LOG}_test.log 2>&1
+        docker run --privileged --name install-single-sanity --rm single-sanity $BUNDLE $REPO >> ${LOG}_test.log 2>&1
         SERVICE_STATUS=$?
         # TODO: try to capture output from run
         OUT+="\n"
