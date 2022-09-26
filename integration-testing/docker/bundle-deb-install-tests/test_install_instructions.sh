@@ -20,7 +20,9 @@
 #######
 
 # Defaults
-export REPO="perfsonar-release"
+LOGS_PREFIX="logs/ps_install"
+REPO="perfsonar-release"
+OSimage="debian:buster"
 declare -a OSimages=("debian:buster" "debian:bullseye" "ubuntu:bionic" "ubuntu:focal" "ubuntu:jammy")
 #declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
 # Only testpoint is supported on Debian/Ubuntu for 5.0
@@ -43,45 +45,35 @@ fi
 # Initialise
 TEXT_STATUS=""
 OUT=""
-LOGS_PREFIX="logs/ps_install"
 if [ -n "$proxy" ]; then
     # If $proxy is set, then we will use it
     useproxy=with
 else
     useproxy=without
 fi
+export OSimage REPO useproxy
+# And cleanup before testing
 mkdir -p ${LOGS_PREFIX%%/*}
 rm -f ${LOGS_PREFIX}_*.log
-OSimage=debian10 docker compose down
+docker compose down
 
-# Verify we have the single-sanity image available
-# TODO: should be moved inside the docker-compose setup
-if ! docker images | grep -q single-sanity; then
-    echo -e "\n\033[1;35mThe single-sanity image doesn't seem to be available, I'll try to build it.\033[0m\n"
-    MYPWD=`pwd`
-    cd ../../../sanity-checking/
-    docker build -t single-sanity -f Dockerfile-single .
-    cd $MYPWD
-fi
+# First we build our images
+# TODO: should move to --no-cache when run on Jenkins or else?
+docker buildx bake
+docker compose up -d
 
+echo -e "\n\n\033[1;33m*** Starting testing perfSONAR bundles from $REPO ***\033[0m\n"
 # Loop on all OS we want to test
 for OSimage in ${OSimages[@]}; do
     echo -e "\n\033[1;35m================\033[0;35m\nOSimage: $OSimage - REPO: $REPO\n\033[1m================\033[0m\n"
     TEXT_STATUS+="\n\033[1mOSimage: $OSimage - REPO: $REPO\033[0m\n"
-    export OSimage REPO useproxy
-    # First we build our image
-    # TODO: should move to --no-cache when run on Jenkins or else?
-    docker-compose build --force-rm
-    docker rm -f install-single-sanity
     # Loop on all bundles we want to test
     for BUNDLE in ${BUNDLES[@]}; do
-        docker compose down
-        docker compose up -d
         LABEL="$BUNDLE FROM $REPO ON $OSimage"
         LOG="${LOGS_PREFIX}_${REPO}_${OSimage}_${BUNDLE}"
         echo -e "\n\033[1m===== INSTALLING ${LABEL} =====\033[0m"
         echo -e "Log to ${LOG}.log\n"
-        docker-compose exec --privileged install_test /usr/local/bin/ps_install_bundle.sh "$BUNDLE" >> ${LOG}.log
+        docker compose exec install_test_${OSimage##*:} /usr/local/bin/ps_install_bundle.sh "$BUNDLE" >> ${LOG}.log
         STATUS=$?
         OUTPUT="$BUNDLE install "
         if [ "$STATUS" -eq "0" ]; then
@@ -99,7 +91,7 @@ for OSimage in ${OSimages[@]}; do
         fi
         echo -e "\n\033[1m===== TESTING \033[0m$LABEL ====="
         echo -e "Log to ${LOG}_test.log\n"
-        docker run --privileged --name install-single-sanity --rm single-sanity $BUNDLE $REPO >> ${LOG}_test.log 2>&1
+        docker compose run single_sanity install_test_${OSimage##*:} $REPO >> ${LOG}_test.log 2>&1
         SERVICE_STATUS=$?
         # TODO: try to capture output from run
         OUT+="\n"

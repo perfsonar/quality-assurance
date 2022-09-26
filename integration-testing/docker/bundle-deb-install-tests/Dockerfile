@@ -5,7 +5,7 @@
 ARG useproxy=without
 # TODO: move to pS provided base OS image
 # OS image to use as a base
-ARG OSimage=debian:stretch
+ARG OSimage=debian:buster
 FROM ${OSimage} AS base
 
 # Some sane defaults
@@ -41,17 +41,17 @@ RUN apt-get update && apt-get install -y \
 # To make systemd work properly
 # From https://github.com/j8r/dockerfiles/tree/master/systemd
 # List for D9, D10, U16, U18 and U20
+RUN cd /lib/systemd/system/sysinit.target.wants/ \
+    && rm $(ls | grep -v systemd-tmpfiles-setup)
 RUN rm -f /lib/systemd/system/multi-user.target.wants/* \
     /etc/systemd/system/*.wants/* \
-    /lib/systemd/system/anaconda.target.wants/* \
-    /lib/systemd/system/basic.target.wants/* \
     /lib/systemd/system/local-fs.target.wants/* \
-    /lib/systemd/system/plymouth* \
     /lib/systemd/system/sockets.target.wants/*udev* \
     /lib/systemd/system/sockets.target.wants/*initctl* \
-    /lib/systemd/system/sysinit.target.wants/systemd-tmpfiles-setup* \
+    /lib/systemd/system/basic.target.wants/* \
+    /lib/systemd/system/anaconda.target.wants/* \
+    /lib/systemd/system/plymouth* \
     /lib/systemd/system/systemd-update-utmp*
-
 
 # WORK AROUND A DEBIAN/UBUNTU DOCKER ISSUE
 # https://stackoverflow.com/questions/46247032/how-to-solve-invoke-rc-d-policy-rc-d-denied-execution-of-start-when-building
