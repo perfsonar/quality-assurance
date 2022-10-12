@@ -1,40 +1,38 @@
 # bundle-deb-install-tests
-
 This project provides ways of testing installation of perfSONAR DEB package-based bundles on Debian-based systems using Docker containers.
 
 ## Testing perfSONAR installation on Debian and Ubuntu
 
 ### OS Support
-Fully Supported:
- * Debian 9 Stretch
- * Ubuntu 16 Xenial Xerus
+The Docker testing setup supports the following OS:
+ * Debian 10 Buster
+ * Debian 11 Bullseye
  * Ubuntu 18 Bionic Beaver
-
-Partial support:
- * Debian 10 Buster (only `perfsonar-testpoint` bundle)
- * Ubuntu 20 Focal (only 
+ * Ubuntu 20 Focal Fossa
+ * Ubuntu 22 Jammy Jellyfish
 
 ### Running the script
-The script attempts to perform sanity checks using the `sanity-checking` scripts (so those will need to be built with Docker first). See `../../sanity-checking`.
+The script attempts to install a perfSONAR bundle and then perform sanity checks using the `sanity-checking` scripts. See `../../sanity-checking`.
 
 You can run the tests by executing `test_install_instructions.sh $REPO $OS $BUNDLE` (with all args optional but the previous one always required) where:
 
  * `$REPO` is one of these (default is to use production):
- ** `perfsonar-release` (production)
- ** `perfsonar-patch-snapshot`
- ** `perfsonar-minor-snapshot`
- ** `perfsonar-patch-staging`
+   * `perfsonar-release` (production)
+   * `perfsonar-patch-snapshot`
+   * `perfsonar-minor-snapshot`
+   * `perfsonar-patch-staging`
  * `$OS` is one of these (default to test all):
- ** `debian:stretch`
- ** `debian:buster`
- ** `ubuntu:xenial`
- ** `ubuntu:bionic`
+   * `debian:buster`
+   * `debian:bullseye`
+   * `ubuntu:bionic`
+   * `ubuntu:focal`
+   * `ubuntu:jammy`
  * `$BUNDLE` is one of these (default is to test all)
- ** `perfsonar-tools`
- ** `perfsonar-testpoint`
- ** `perfsonar-core`
- ** `perfsonar-centralmanagement`
- ** `perfsonar-toolkit`
+   * `perfsonar-tools`
+   * `perfsonar-testpoint`
+   * `perfsonar-core`
+   * `perfsonar-centralmanagement`
+   * `perfsonar-toolkit`
 
 ### Debugging an install
 When one of the installation is failing, you can use a dedicated debug script to re-run the installation and drop into a shell, in the container, to debug further the installation issue faced.  This is done with `debug_install.sh $REPO $OS $BUNDLE`
@@ -47,7 +45,6 @@ If you want to use an HTTP/HTTPS proxy to speed up downloading of packages for t
 And that's the same with the `debug_install` script, it takes the same ENV variables.
 
 ## About the Docker images
-
 ### Docker daemon configuration
 
 For the Docker images to work with `systemd`, as of Docker Engine 20.10.12 and Docker Desktop 4.4.2 on MacOS, one need to enable the `"cgroup-parent": "docker.slice"` property in the `daemon.json` file. With that setting, no declaration nor mounting of the volume `/sys/fs/cgroup` is needed as previously.
