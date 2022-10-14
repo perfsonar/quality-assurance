@@ -12,24 +12,24 @@ The Docker testing setup supports the following OS:
  * Ubuntu 22 Jammy Jellyfish
 
 ### Running the script
-The script attempts to install a perfSONAR bundle and then perform sanity checks using the `sanity-checking` scripts. See `../../sanity-checking`.
+The script attempts to install a perfSONAR bundle and then perform sanity checks using the `sanity-checking` scripts.  See [sanity-checking](../../../sanity-checking) for details.
 
-You can run the tests by executing `test_install_instructions.sh $REPO $OS $BUNDLE` (with all args optional but the previous one always required) where:
+You can run the tests by executing `test_install_instructions.sh $REPO $OS $BUNDLE` (with all args optional but the previous one always required) where (in bold are the defaults):
 
- * `$REPO` is one of these (default is to use production):
-   * `perfsonar-release` (production)
+ * `$REPO` is one of these:
+   * **`perfsonar-release`** (production)
    * `perfsonar-patch-snapshot`
    * `perfsonar-minor-snapshot`
    * `perfsonar-patch-staging`
- * `$OS` is one of these (default to test all):
+ * `$OS` is one of these (default to test **all**):
    * `debian:buster`
    * `debian:bullseye`
    * `ubuntu:bionic`
    * `ubuntu:focal`
    * `ubuntu:jammy`
- * `$BUNDLE` is one of these (default is to test all)
-   * `perfsonar-tools`
-   * `perfsonar-testpoint`
+ * `$BUNDLE` is one of these (default is tools an testpoint as only those are supported on Debian and Ubuntu at the moment)
+   * **`perfsonar-tools`**
+   * **`perfsonar-testpoint`**
    * `perfsonar-core`
    * `perfsonar-centralmanagement`
    * `perfsonar-toolkit`
