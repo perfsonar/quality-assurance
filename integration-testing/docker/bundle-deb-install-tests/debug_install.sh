@@ -5,6 +5,18 @@
 REPO="perfsonar-release"
 OSimage="debian:stretch"
 BUNDLE="perfsonar-toolkit"
+debug=false
+
+# Parsing options
+while getopts "Dh" OPT; do
+    case $OPT in
+        D) debug=true ; need_shift=true ;;
+        h)
+            show_help >&2
+            exit 1 ;;
+    esac
+done
+shift $((OPTIND))
 
 # Parse CLI args
 if [ -n "$1" ]; then
