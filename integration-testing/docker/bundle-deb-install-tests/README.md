@@ -14,7 +14,7 @@ The Docker testing setup supports the following OS:
 ### Running the script
 The script attempts to install a perfSONAR bundle and then perform sanity checks using the `sanity-checking` scripts.  See [sanity-checking](../../../sanity-checking) for details.
 
-You can run the tests by executing `test_install_instructions.sh $REPO $OS $BUNDLE` (with all args optional but the previous one always required) where (in bold are the defaults):
+You can run the tests by executing `test_install_instructions.sh -r $REPO -o $OS -b $BUNDLE` (with all args are optional) where (in bold are the defaults):
 
  * `$REPO` is one of these:
    * **`perfsonar-release`** (production)
@@ -35,14 +35,12 @@ You can run the tests by executing `test_install_instructions.sh $REPO $OS $BUND
    * `perfsonar-toolkit`
 
 ### Debugging an install
-When one of the installation is failing, you can use a dedicated debug script to re-run the installation and drop into a shell, in the container, to debug further the installation issue faced.  This is done with `debug_install.sh $REPO $OS $BUNDLE`
+When one of the installation is failing, you can re-run the script with the `-D` option, in case installation is failing, it will then drop into a shell, in the container, to debug further the installation issue faced.  So, something like `./test_install_instructions.sh -r $REPO -o $OS -b $BUNDLE -D`
 
 Once inside this container, you can use the command `debug-pscheduler-api.sh URL` with a path to a pScheduler API object to debug pScheduler behaviour.
 
 ### Using a proxy to speed packages download
-If you want to use an HTTP/HTTPS proxy to speed up downloading of packages for the different images and to run the install tests (so both at Docker build and run time), you can do it this way: `useproxy=yes proxy=172.17.0.1:3128 ./test_install_instructions.sh $REPO $OS $BUNDLE`  The given proxy variable will be used to set both `$http_proxy` and `$https_proxy` and making `$no_proxy` set to `localhost,127.0.0.1` so that pScheduler calls don't get passed through the proxy.
-
-And that's the same with the `debug_install` script, it takes the same ENV variables.
+If you want to use an HTTP/HTTPS proxy to speed up downloading of packages for the different images and to run the install tests (so both at Docker build and run time), you can do it this way: `useproxy=yes proxy=172.17.0.1:3128 ./test_install_instructions.sh -r $REPO -o $OS -b $BUNDLE`  The given proxy variable will be used to set both `$http_proxy` and `$https_proxy` and making `$no_proxy` set to `localhost,127.0.0.1` so that pScheduler calls don't get passed through the proxy.
 
 ## About the Docker images
 ### Docker daemon configuration
