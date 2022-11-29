@@ -1,32 +1,31 @@
-version: '3.5'
+### Required setup for the install test images.
+# tmpfs and volumes are needed for systemd to work properly
+# ARGS can be setup by the testing script, see README
+
+# Some defaults
+x-ports:
+  &default-ports
+  - "8443:443"
+
+x-tmpfs:
+  &default-tmpfs
+  - /run
+  - /run/lock
+  - /tmp
+
+# Services
+version: '3.9'
 services:
-  centos_clean:
-    container_name: rpm-install-transient
-    image: perfsonar/dev-centos-clean:latest
+  install_test_centos7:
+    container_name: install-test-centos7
+    privileged: true
+    image: $REPO/centos:7
+    tmpfs: *default-tmpfs
+
+  single_sanity:
+    container_name: install-single-sanity
     privileged: true
     build:
-        context: .
-        dockerfile: Dockerfile
-        #args:
-        #    repos:
-        #        - perfsonar-tools
-        #        - perfsonar-testpoint
-    tmpfs: 
-       - /run
-       - /tmp
-    volumes:
-       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    networks:
-       - bundle_testing
-    ports:
-       - "8443:443"
-    ulimits:
-       nproc: 65535
-       nofile:
-           soft: 20000
-           hard: 40000
-
-networks:
-  bundle_testing:
-    name: bundle_testing
-    driver: bridge
+      context: ../../../sanity-checking/
+      dockerfile: Dockerfile-single
+    image: single-sanity
