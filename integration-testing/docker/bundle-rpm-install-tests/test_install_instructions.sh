@@ -90,7 +90,7 @@ for OSimage in ${OSimages[@]}; do
         LOG="${LOGS_PREFIX}_${REPO}_${OSimage}_${BUNDLE}"
         echo -e "\n\033[1m===== INSTALLING ${LABEL} =====\033[0m"
         echo -e "Log to ${LOG}.log\n"
-        docker compose exec install_test_${OSimage##*:} /usr/local/bin/ps_install_bundle.sh "$BUNDLE" >> ${LOG}.log
+        docker compose exec install_test_${OSimage%%:*}${OSimage##*:} /usr/local/bin/ps_install_bundle.sh "$BUNDLE" >> ${LOG}.log
         STATUS=$?
         OUTPUT="$BUNDLE install "
         if [ "$STATUS" -eq "0" ]; then
@@ -99,7 +99,7 @@ for OSimage in ${OSimages[@]}; do
             echo -e "\033[0;31m$BUNDLE failed to install with status: $STATUS\033[0m"
             if $debug; then
                 echo "Installation script failed, we'll get you a shell…"
-                container_debug install_test_${OSimage##*:}
+                container_debug install_test_${OSimage%%:*}${OSimage##*:}
             else
                 echo -e "Check the logs and then enable debug mode (-D) if you want to drop into a shell after the failed install."
             fi
@@ -113,7 +113,7 @@ for OSimage in ${OSimages[@]}; do
         fi
         echo -e "\n\033[1m===== TESTING \033[0m$LABEL ====="
         echo -e "Log to ${LOG}_test.log\n"
-        docker compose run single_sanity install_test_${OSimage##*:} $REPO >> ${LOG}_test.log 2>&1
+        docker compose run single_sanity install_test_${OSimage%%:*}${OSimage##*:} $REPO >> ${LOG}_test.log 2>&1
         SERVICE_STATUS=$?
         # TODO: try to capture output from run
         OUT+="\n"
@@ -125,7 +125,7 @@ for OSimage in ${OSimages[@]}; do
         else
             if $debug; then
                 echo "It seems like testing failed, we'll get you a shell to debug further…"
-                container_debug install_test_${OSimage##*:}
+                container_debug install_test_${OSimage%%:*}${OSimage##*:}
             fi
             OUTPUT+="\033[1;31mFAILED TO RUN!\033[0m"
         fi
