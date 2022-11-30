@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 # Remount /tmp allowing exec
 mount /tmp -o remount,exec
