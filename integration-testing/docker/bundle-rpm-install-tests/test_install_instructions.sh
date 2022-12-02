@@ -19,7 +19,7 @@ show_help() {
             - perfsonar-repo-nightly-minor
             - perfsonar-repo-nightly-patch
             - perfsonar-repo-staging
-        -o [osimage] a known CentOS Docker image tag like centos:7
+        -o [osimage] a known CentOS Docker image tag like centos:7 or almalinux:8
         -b [bundle] a known perfSONAR bundle of packages like perfsonar-testpoint or perfsonar-toolkit
 
 EOF
@@ -36,7 +36,7 @@ container_debug() {
 # Defaults
 LOGS_PREFIX="logs/ps_install"
 REPO="perfsonar-repo"
-declare -a OSimages=("centos:7")
+declare -a OSimages=("centos:7", "almalinux:8")
 declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-archive" "perfsonar-dashboards" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
 #declare -a BUNDLES=("perfsonar-psconfig-web-admin-ui perfsonar-psconfig-web-admin-publisher" "perfsonar-tools" "perfsonar-core" "perfsonar-testpoint" "perfsonar-centralmanagement" "perfsonar-toolkit")
 debug=false

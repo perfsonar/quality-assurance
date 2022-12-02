@@ -20,6 +20,7 @@ You can run the tests by executing `test_install_instructions.sh -r $REPO -o $OS
    * `perfsonar-repo-staging`
  * `$OS` is one of these (default to test **all**):
    * `centos:7`
+   * `almalinux:8`
  * `$BUNDLE` is one of these (default to test **all**)
    * `perfsonar-tools`
    * `perfsonar-testpoint`  

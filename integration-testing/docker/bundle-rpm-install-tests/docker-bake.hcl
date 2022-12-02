@@ -22,7 +22,8 @@ variable "proxy" {
 // Defaults
 group "default" {
     targets = [
-        "single_test_centos_7"
+        "single_test_centos_7",
+        "single_test_almalinux_8"
     ]
 }
 
@@ -48,6 +49,13 @@ target "single_test_centos_7" {
         OSimage = "centos:7"
     }
     tags = ["${REPO}/centos:7"]
+}
+target "single_test_almalinux_8" {
+    inherits = ["single_test"]
+    args = {
+        OSimage = "almalinux:8"
+    }
+    tags = ["${REPO}/almalinux:8"]
 }
 target "full_arch_test" {
     inherits = ["root_target"]
