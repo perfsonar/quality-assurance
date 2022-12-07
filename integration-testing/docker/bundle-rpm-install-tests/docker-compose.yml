@@ -21,12 +21,6 @@ services:
     privileged: true
     image: $REPO/centos:7
     tmpfs: *default-tmpfs
-  
-  install_test_almalinux8:
-    container_name: install_test_almalinux8
-    privileged: true
-    image: $REPO/almalinux:8
-    tmpfs: *default-tmpfs
 
   single_sanity:
     container_name: install-single-sanity
