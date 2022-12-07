@@ -91,7 +91,7 @@ $p->bind( $primary_address );
 
 foreach my $host (@addresses) {
 	
-	print "************** MNG For each of hosts - host: $host \n";
+	warn "************** MNG For each of hosts - host: $host \n";
 	
     my $isodate = get_now();
     warn "$host is ";
@@ -127,7 +127,7 @@ foreach my $host (@addresses) {
   
     $host_status->{'pscheduler'} = {};
     
-    print "************** MNG For each of hosts - hoststatus: $host_status \n";
+    warn "************** MNG For each of hosts - hoststatus: $host_status \n";
     
     
     
@@ -159,7 +159,7 @@ foreach my $host (@addresses) {
     $host_status->{'toolkit'} = {};
     $status = $host_status->{'toolkit'};
     
-      print "************** MNG For each of hosts - hoststatus: $host_status \n";
+      warn "************** MNG For each of hosts - hoststatus: $host_status \n";
     
 
 
@@ -186,7 +186,7 @@ foreach my $host (@addresses) {
 
     $host_status->{'esmond'} = {};
     
-      print "************** MNG For each of hosts - hoststatus: $host_status \n";
+      warn "************** MNG For each of hosts - hoststatus: $host_status \n";
     
 
     my $esmond_rest_url = "https://$host/esmond/perfsonar/archive/?limit=1";
@@ -237,7 +237,7 @@ sub check_pscheduler_services {
     my $services_ok = \0;
     my $message;
     
-      print "************** MNG $host checking pscheduler services \n";
+      warn "************** MNG $host checking pscheduler services \n";
     
 
     if ( !$status_obj ) {
@@ -319,7 +319,7 @@ sub check_pscheduler_services {
 
 sub check_esmond_data {
 	
-	  print "************** MNG $host checking esmound data \n";
+	  warn "************** MNG $host checking esmound data \n";
 	
     my ( $url, $status, $dir, $test_type ) = @_;
 
@@ -380,7 +380,7 @@ sub check_esmond_data {
 #
 sub run_http_status_check {
 	
-	  print "************** MNG $host checking HTTP status \n";
+	  warn "************** MNG $host checking HTTP status \n";
 	
     my ( $url, $return_data ) = @_;
     my $status = {};
@@ -435,7 +435,7 @@ sub run_http_status_check {
 
 sub check_port {
 	
-	  print "************** MNG $host checking port \n";
+	  warn "************** MNG $host checking port \n";
 	
     my ( $host, $port, $protocol ) = @_;
     my $ret;
