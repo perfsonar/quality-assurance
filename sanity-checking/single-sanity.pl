@@ -113,7 +113,7 @@ foreach my $host (@addresses) {
     my $status = $host_status->{'ping'};
     if ( $p->ping($host, 2) ) {
         $status->{ 'reachable' } = \1;
-        warn "HOST IS REACHABLE";
+        warn "HOST IS REACHABLE.";
 
     } else {
         warn "NOT ";
