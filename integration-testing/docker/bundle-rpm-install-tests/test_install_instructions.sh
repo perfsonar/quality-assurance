@@ -97,7 +97,7 @@ for OSimage in ${OSimages[@]}; do
         echo -e "\n\033[1m===== INSTALLING ${LABEL} =====\033[0m"
         echo -e "Log to ${LOG}.log\n"
         
-        eecho -e "\n\n\033[1;33m************* MNG - Start docker install test ${OSimage%%:*}${OSimage##*:} ***\033[0m\n"
+        echo -e "\n\n\033[1;33m************* MNG - Start docker install test ${OSimage%%:*}${OSimage##*:} ***\033[0m\n"
         
         docker compose exec install_test_${OSimage%%:*}${OSimage##*:} /usr/local/bin/ps_install_bundle.sh "$BUNDLE" >> ${LOG}.log
         
