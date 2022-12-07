@@ -91,7 +91,7 @@ $p->bind( $primary_address );
 
 foreach my $host (@addresses) {
 	
-	warn "************** MNG For each of hosts - host: $host \n";
+	warn "************** MNG For each of hosts - host: " . Dumper $host;
 	
     my $isodate = get_now();
     warn "$host is ";
@@ -127,10 +127,9 @@ foreach my $host (@addresses) {
   
     $host_status->{'pscheduler'} = {};
     
-    warn "************** MNG For each of hosts - hoststatus: $host_status \n";
+    warn "************** MNG For each of hosts - hoststatus:" . Dumper $host_status;
     
-    
-    
+        
     $status = $host_status->{'pscheduler'};
     $status->{'rest_api'} = {};
     my $rest_status = $status->{'rest_api'};
@@ -159,9 +158,8 @@ foreach my $host (@addresses) {
     $host_status->{'toolkit'} = {};
     $status = $host_status->{'toolkit'};
     
-      warn "************** MNG For each of hosts - hoststatus: $host_status \n";
+      warn "************** MNG For each of hosts - hoststatus: " . Dumper $host_status;
     
-
 
     my $toolkit_url = "http://" . $host . "/toolkit/";
     my $toolkit_status = run_http_status_check( $toolkit_url );
@@ -186,7 +184,7 @@ foreach my $host (@addresses) {
 
     $host_status->{'esmond'} = {};
     
-      warn "************** MNG For each of hosts - hoststatus: $host_status \n";
+      warn "************** MNG For each of hosts - hoststatus: " . Dumper $host_status;
     
 
     my $esmond_rest_url = "https://$host/esmond/perfsonar/archive/?limit=1";
@@ -237,7 +235,7 @@ sub check_pscheduler_services {
     my $services_ok = \0;
     my $message;
     
-      warn "************** MNG $host checking pscheduler services \n";
+      warn "************** MNG checking pscheduler services \n";
     
 
     if ( !$status_obj ) {
@@ -319,7 +317,7 @@ sub check_pscheduler_services {
 
 sub check_esmond_data {
 	
-	  warn "************** MNG $host checking esmound data \n";
+	  warn "************** MNG checking esmound data \n";
 	
     my ( $url, $status, $dir, $test_type ) = @_;
 
@@ -380,7 +378,7 @@ sub check_esmond_data {
 #
 sub run_http_status_check {
 	
-	  warn "************** MNG $host checking HTTP status \n";
+	  warn "************** MNG checking HTTP status \n";
 	
     my ( $url, $return_data ) = @_;
     my $status = {};
@@ -435,7 +433,7 @@ sub run_http_status_check {
 
 sub check_port {
 	
-	  warn "************** MNG $host checking port \n";
+	  warn "************** MNG checking port \n";
 	
     my ( $host, $port, $protocol ) = @_;
     my $ret;
