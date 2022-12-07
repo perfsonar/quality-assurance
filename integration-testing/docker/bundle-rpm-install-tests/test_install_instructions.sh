@@ -96,7 +96,13 @@ for OSimage in ${OSimages[@]}; do
         LOG="${LOGS_PREFIX}_${REPO}_${OSimage}_${BUNDLE}"
         echo -e "\n\033[1m===== INSTALLING ${LABEL} =====\033[0m"
         echo -e "Log to ${LOG}.log\n"
+        
+        eecho -e "\n\n\033[1;33m************* MNG - Start docker install test ${OSimage%%:*}${OSimage##*:} ***\033[0m\n"
+        
         docker compose exec install_test_${OSimage%%:*}${OSimage##*:} /usr/local/bin/ps_install_bundle.sh "$BUNDLE" >> ${LOG}.log
+        
+        echo -e "\n\n\033[1;33m************* MNG - Finish docker install test ${OSimage%%:*}${OSimage##*:} ***\033[0m\n"
+        
         STATUS=$?
         OUTPUT="$BUNDLE install "
         if [ "$STATUS" -eq "0" ]; then
@@ -123,7 +129,13 @@ for OSimage in ${OSimages[@]}; do
         
         echo -e "\n\033[1m===== TESTING \033[0m$LABEL ====="
         echo -e "Log to ${LOG}_test.log\n"
+        
+        echo -e "\n\n\033[1;33m************* MNG - Test Start ***\033[0m\n"
+        
         docker compose run single_sanity install_test_${OSimage%%:*}${OSimage##*:} $REPO >> ${LOG}_test.log 2>&1
+        
+        echo -e "\n\n\033[1;33m************* MNG - Test Finish ***\033[0m\n"
+        
         SERVICE_STATUS=$?
         # TODO: try to capture output from run
         OUT+="\n"

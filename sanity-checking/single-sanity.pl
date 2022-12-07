@@ -90,6 +90,9 @@ my $p = Net::Ping->new("icmp"); # for some reason icmp requires root
 $p->bind( $primary_address );
 
 foreach my $host (@addresses) {
+	
+	print "************** MNG For each of hosts - host: $host \n";
+	
     my $isodate = get_now();
     warn "$host is ";
     my $host_status = {};
@@ -120,8 +123,14 @@ foreach my $host (@addresses) {
 
     }
     warn "reachable via ping.\n";
-
+    
+  
     $host_status->{'pscheduler'} = {};
+    
+    print "************** MNG For each of hosts - hoststatus: $host_status \n";
+    
+    
+    
     $status = $host_status->{'pscheduler'};
     $status->{'rest_api'} = {};
     my $rest_status = $status->{'rest_api'};
@@ -149,6 +158,9 @@ foreach my $host (@addresses) {
 
     $host_status->{'toolkit'} = {};
     $status = $host_status->{'toolkit'};
+    
+      print "************** MNG For each of hosts - hoststatus: $host_status \n";
+    
 
 
     my $toolkit_url = "http://" . $host . "/toolkit/";
@@ -173,6 +185,9 @@ foreach my $host (@addresses) {
     #$status->{'owamp'}->{'port'} = '861/tcp';
 
     $host_status->{'esmond'} = {};
+    
+      print "************** MNG For each of hosts - hoststatus: $host_status \n";
+    
 
     my $esmond_rest_url = "https://$host/esmond/perfsonar/archive/?limit=1";
     my $esmond_rest_status = run_http_status_check( $esmond_rest_url );
@@ -221,6 +236,9 @@ sub check_pscheduler_services {
     my $out_obj = {};
     my $services_ok = \0;
     my $message;
+    
+      print "************** MNG $host checking pscheduler services \n";
+    
 
     if ( !$status_obj ) {
         $message = "Status object undefined";
@@ -300,6 +318,9 @@ sub check_pscheduler_services {
 }
 
 sub check_esmond_data {
+	
+	  print "************** MNG $host checking esmound data \n";
+	
     my ( $url, $status, $dir, $test_type ) = @_;
 
     my $req = HTTP::Request->new( 'GET', $url );
@@ -358,6 +379,9 @@ sub check_esmond_data {
 # json????
 #
 sub run_http_status_check {
+	
+	  print "************** MNG $host checking HTTP status \n";
+	
     my ( $url, $return_data ) = @_;
     my $status = {};
     warn "url " .  $url;
@@ -410,6 +434,9 @@ sub run_http_status_check {
 }
 
 sub check_port {
+	
+	  print "************** MNG $host checking port \n";
+	
     my ( $host, $port, $protocol ) = @_;
     my $ret;
     my $message = "";
