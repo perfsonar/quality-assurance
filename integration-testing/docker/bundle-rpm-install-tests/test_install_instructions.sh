@@ -34,6 +34,9 @@ container_debug() {
 }
 
 # Defaults
+
+echo -e "\n\n\033[1;33m************* MNG - Start of test install instructions ***\033[0m\n"
+
 LOGS_PREFIX="logs/ps_install"
 REPO="perfsonar-repo"
 declare -a OSimages=("centos:7")
@@ -75,6 +78,9 @@ docker compose down
 
 # First we build our images and launch containers
 # TODO: should move to --no-cache when run on Jenkins or else?
+
+echo -e "\n\n\033[1;33m************* MNG - Start to build images ***\033[0m\n"
+
 docker buildx bake
 docker compose up -d
 
@@ -111,6 +117,10 @@ for OSimage in ${OSimages[@]}; do
             TEXT_STATUS+="QUITTING ... \n"
             continue
         fi
+        
+        echo -e "\n\n\033[1;33m************* MNG - Start to run single sanity tests for ${OSimage%%:*}${OSimage##*:} $REPO ***\033[0m\n"
+        
+        
         echo -e "\n\033[1m===== TESTING \033[0m$LABEL ====="
         echo -e "Log to ${LOG}_test.log\n"
         docker compose run single_sanity install_test_${OSimage%%:*}${OSimage##*:} $REPO >> ${LOG}_test.log 2>&1
@@ -118,6 +128,8 @@ for OSimage in ${OSimages[@]}; do
         # TODO: try to capture output from run
         OUT+="\n"
         #echo -e "OUT:\n$OUT\n"
+        
+        echo -e "\n\n\033[1;33m************* MNG - End of run single sanity tests for ${OSimage%%:*}${OSimage##*:} $REPO ***\033[0m\n"
 
         OUTPUT="$BUNDLE service checks "
         if [ "$SERVICE_STATUS" -eq "0" ]; then
@@ -133,6 +145,8 @@ for OSimage in ${OSimages[@]}; do
         TEXT_STATUS+="$OUTPUT\n"
     done
 done
+
+ echo -e "\n\n\033[1;33m************* MNG - closing down now $REPO ***\033[0m\n"
 
 echo -e "\nNow stopping containers."
 docker compose down
