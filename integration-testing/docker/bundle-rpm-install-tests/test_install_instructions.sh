@@ -36,7 +36,7 @@ container_debug() {
 # Defaults
 LOGS_PREFIX="logs/ps_install"
 REPO="perfsonar-repo"
-declare -a OSimages=("centos:7", "almalinux:8")
+declare -a OSimages=("centos:7")
 declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-archive" "perfsonar-dashboards" "perfsonar-core" "perfsonar-centralmanagement" "perfsonar-toolkit")
 #declare -a BUNDLES=("perfsonar-psconfig-web-admin-ui perfsonar-psconfig-web-admin-publisher" "perfsonar-tools" "perfsonar-core" "perfsonar-testpoint" "perfsonar-centralmanagement" "perfsonar-toolkit")
 debug=false
