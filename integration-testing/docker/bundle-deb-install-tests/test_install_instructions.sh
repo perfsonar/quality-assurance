@@ -38,8 +38,7 @@ container_debug() {
 LOGS_PREFIX="logs/ps_install"
 REPO="perfsonar-release"
 declare -a OSimages=("debian:buster" "debian:bullseye" "ubuntu:bionic" "ubuntu:focal" "ubuntu:jammy")
-# Only testpoint is supported on Debian/Ubuntu for 5.0
-declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint")
+declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-toolkit")
 debug=false
 
 # Parsing options
