@@ -20,6 +20,8 @@ if [[ $BUNDLE =~ perfsonar-(core|testpoint|toolkit) ]]; then
     echo "We'll now try to run pscheduler…"
     # Wait a bit so that pScheduler is ready
     sleep 50
+    # We don't want to have any https proxy in the way
+    unset https_proxy
     pscheduler troubleshoot
     if [ "$?" -ne "0" ]; then
         # Try a second time as pScheduler might be a bit picky

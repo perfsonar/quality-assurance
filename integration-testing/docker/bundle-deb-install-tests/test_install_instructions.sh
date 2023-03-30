@@ -38,7 +38,7 @@ container_debug() {
 LOGS_PREFIX="logs/ps_install"
 REPO="perfsonar-release"
 declare -a OSimages=("debian:buster" "debian:bullseye" "ubuntu:bionic" "ubuntu:focal" "ubuntu:jammy")
-declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-toolkit")
+declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-core" "perfsonar-toolkit" "perfsonar-archive" "maddash")
 debug=false
 
 # Parsing options
@@ -75,13 +75,17 @@ docker compose down
 # First we build our images and launch containers
 # TODO: should move to --no-cache when run on Jenkins or else?
 docker buildx bake
-docker compose up -d
+CONTAINERS=""
+for OS in ${OSimages[@]}; do
+    CONTAINERS+="install_test_${OS/*:/} "
+done
+docker compose up -d $CONTAINERS
 
 echo -e "\n\n\033[1;33m*** Starting testing perfSONAR bundles from $REPO ***\033[0m\n"
 
 # Loop on all OS we want to test
 for OSimage in ${OSimages[@]}; do
-    echo -e "\n\033[1;35m================\033[0;35m\nOSimage: $OSimage - REPO: $REPO\n\033[1m================\033[0m\n"
+    echo -e "\n\033[1;35m================\033[0;35m\nOSimage: $OSimage - REPO: $REPO\n\033[1m================\033[0m"
     TEXT_STATUS+="\n\033[1mOSimage: $OSimage - REPO: $REPO\033[0m\n"
     # Loop on all bundles we want to test
     for BUNDLE in ${BUNDLES[@]}; do
@@ -112,7 +116,7 @@ for OSimage in ${OSimages[@]}; do
         fi
         echo -e "\n\033[1m===== TESTING \033[0m$LABEL ====="
         echo -e "Log to ${LOG}_test.log\n"
-        docker compose run single_sanity install_test_${OSimage##*:} $REPO >> ${LOG}_test.log 2>&1
+        docker compose run --rm single_sanity install_test_${OSimage##*:} $REPO >> ${LOG}_test.log 2>&1
         SERVICE_STATUS=$?
         # TODO: try to capture output from run
         OUT+="\n"
