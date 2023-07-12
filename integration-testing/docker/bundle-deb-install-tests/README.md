@@ -1,6 +1,6 @@
 # bundle-deb-install-tests
 
-This project provides ways of testing installation of perfSONAR DEB package-based bundles on Debian-based systems using Docker containers.
+This project provides ways of testing the installation of perfSONAR DEB package-based bundles on Debian-based systems using Docker containers.  **This environment is meant to be used with perfSONAR releases from the 4.x.y series**.  See the other branches in this repository if you want to test newer versions.
 
 ## Testing perfSONAR installation on Debian and Ubuntu
 
@@ -20,21 +20,21 @@ The script attempts to perform sanity checks using the `sanity-checking` scripts
 You can run the tests by executing `test_install_instructions.sh $REPO $OS $BUNDLE` (with all args optional but the previous one always required) where:
 
  * `$REPO` is one of these (default is to use production):
- ** `perfsonar-release` (production)
- ** `perfsonar-patch-snapshot`
- ** `perfsonar-minor-snapshot`
- ** `perfsonar-patch-staging`
+   * `perfsonar-release` (production)
+   * `perfsonar-patch-snapshot`
+   * `perfsonar-minor-snapshot`
+   * `perfsonar-patch-staging`
  * `$OS` is one of these (default to test all):
- ** `debian:stretch`
- ** `debian:buster`
- ** `ubuntu:xenial`
- ** `ubuntu:bionic`
+   * `debian:stretch`
+   * `debian:buster`
+   * `ubuntu:xenial`
+   * `ubuntu:bionic`
  * `$BUNDLE` is one of these (default is to test all)
- ** `perfsonar-tools`
- ** `perfsonar-testpoint`
- ** `perfsonar-core`
- ** `perfsonar-centralmanagement`
- ** `perfsonar-toolkit`
+   * `perfsonar-tools`
+   * `perfsonar-testpoint`
+   * `perfsonar-core`
+   * `perfsonar-centralmanagement`
+   * `perfsonar-toolkit`
 
 ### Debugging an install
 When one of the installation is failing, you can use a dedicated debug script to re-run the installation and drop into a shell, in the container, to debug further the installation issue faced.  This is done with `debug_install.sh $REPO $OS $BUNDLE`
