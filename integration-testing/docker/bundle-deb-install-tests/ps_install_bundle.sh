@@ -5,7 +5,7 @@ mount /tmp -o remount,exec
 
 apt-get update
 
-BUNDLE=$1
+BUNDLE="$@"
 apt-get install -y $BUNDLE
 if [ "$?" -ne "0" ]; then
     # Try again without any proxy

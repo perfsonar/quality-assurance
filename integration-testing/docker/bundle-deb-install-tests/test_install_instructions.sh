@@ -85,13 +85,13 @@ for OSimage in ${OSimages[@]}; do
     TEXT_STATUS+="\n\033[1mOSimage: $OSimage - REPO: $REPO\033[0m\n"
     CONTAINER="install_test_${OSimage##*:}"
     # Loop on all bundles we want to test
-    for BUNDLE in ${BUNDLES[@]}; do
+    for BUNDLE in "${BUNDLES[@]}"; do
         LABEL="$BUNDLE FROM $REPO ON $OSimage"
         LOG="${LOGS_PREFIX}_${REPO}_${OSimage}_${BUNDLE}"
         docker compose up -d $CONTAINER
         echo -e "\n\033[1m===== INSTALLING ${LABEL} =====\033[0m"
         echo -e "Log to ${LOG}.log\n"
-        docker compose exec $CONTAINER /usr/local/bin/ps_install_bundle.sh "$BUNDLE" >> ${LOG}.log
+        docker compose exec $CONTAINER /usr/local/bin/ps_install_bundle.sh "$BUNDLE" >> "${LOG}.log"
         STATUS=$?
         OUTPUT="$BUNDLE install "
         if [ "$STATUS" -eq "0" ]; then
@@ -115,7 +115,7 @@ for OSimage in ${OSimages[@]}; do
         fi
         echo -e "\n\033[1m===== TESTING \033[0m$LABEL ====="
         echo -e "Log to ${LOG}_test.log\n"
-        docker compose run --rm single_sanity $CONTAINER $REPO >> ${LOG}_test.log 2>&1
+        docker compose run --rm single_sanity $CONTAINER $REPO >> "${LOG}_test.log" 2>&1
         SERVICE_STATUS=$?
         # TODO: try to capture output from run
         OUT+="\n"
