@@ -44,6 +44,15 @@ If you want to use an HTTP/HTTPS proxy to speed up downloading of packages for t
 
 Look at https://hub.docker.com/r/ubuntu/squid if you want to run a Squid proxy in a container.  You can, for example, launch it with `docker run -d --name squid-proxy --restart always --network bridge -p 3128:3128 -v /Users/Shared/squid:/var/spool/squid -v /Users/Shared/squid/squid.conf:/etc/squid/squid.conf ubuntu/squid:4.10-20.04_beta` and then use `proxy=host.docker.internal:3128` when calling the testing script.
 
+### Test Environment
+The sripts runs without errors on a Debian 11 environment. The container is build and the tests within the container goes fine.
+
+In a Centos 7 the scitps does not pass and show error for "dpkg"
+dpkg: error processing package opensearch (--configure):
+ installed opensearch package post-installation script subprocess returned error exit status 255
+And can't configure the perfsonar packages after.
+So the container is not building and does not pass the first phase.
+
 ## About the Docker images
 ### Docker daemon configuration
 
