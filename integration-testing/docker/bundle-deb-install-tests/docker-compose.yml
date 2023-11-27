@@ -28,10 +28,10 @@ services:
     image: $REPO/debian:bullseye
     tmpfs: *default-tmpfs
 
-  install_test_bionic:
-    container_name: install-test-bionic
+  install_test_bookworm:
+    container_name: install-test-bookworm
     privileged: true
-    image: $REPO/ubuntu:bionic
+    image: $REPO/debian:bookworm
     tmpfs: *default-tmpfs
 
   install_test_focal:

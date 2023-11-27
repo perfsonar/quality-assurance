@@ -12,6 +12,7 @@ if [ "$?" -ne "0" ]; then
     unset https_proxy
     echo -e "\n\033[1;33mSomething went wrong during installation\033[0m"
     echo -e "\n\033[1;33mLet's try the installation again without any HTTPS proxy\033[0m\n"
+    echo "Let's try installing again unsetting https_proxy." >&2
 fi
 apt-get install -y $BUNDLE
 if [ "$?" -ne "0" ]; then

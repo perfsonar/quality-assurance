@@ -27,9 +27,14 @@ group "default" {
     targets = [
         "single_test_debian_buster",
         "single_test_debian_bullseye",
-        "single_test_ubuntu_bionic",
+        "single_test_debian_bookworm",
         "single_test_ubuntu_focal",
         "single_test_ubuntu_jammy"
+    ]
+}
+group "arches" {
+    targets = [
+        "full_arch_test"
     ]
 }
 
@@ -63,12 +68,12 @@ target "single_test_debian_bullseye" {
     }
     tags = ["${REPO}/debian:bullseye"]
 }
-target "single_test_ubuntu_bionic" {
+target "single_test_debian_bookworm" {
     inherits = ["single_test"]
     args = {
-        OSimage = "ubuntu:bionic"
+        OSimage = "debian:bookworm"
     }
-    tags = ["${REPO}/ubuntu:bionic"]
+    tags = ["${REPO}/debian:bookworm"]
 }
 target "single_test_ubuntu_focal" {
     inherits = ["single_test"]
@@ -86,7 +91,8 @@ target "single_test_ubuntu_jammy" {
 }
 target "full_arch_test" {
     inherits = ["root_target"]
-    platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/ppc64le"]
+//    platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/ppc64le"]
+    platforms = ["linux/amd64", "linux/arm64"]
     output = ["type=registry"]
     tags = ["docker.io/ntw0n/${REPO}/${OSimage}"]
 }

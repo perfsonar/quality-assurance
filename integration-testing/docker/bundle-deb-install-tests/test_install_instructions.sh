@@ -37,8 +37,8 @@ container_debug() {
 # Defaults
 LOGS_PREFIX="logs/ps_install"
 REPO="perfsonar-release"
-declare -a OSimages=("debian:buster" "debian:bullseye" "ubuntu:bionic" "ubuntu:focal" "ubuntu:jammy")
-declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-archive" "perfsonar-core" "perfsonar-toolkit" "maddash")
+declare -a OSimages=("debian:buster" "debian:bullseye" "debian:bookworm" "ubuntu:focal" "ubuntu:jammy")
+declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-archive" "perfsonar-core" "perfsonar-toolkit")
 debug=false
 
 # Parsing options
@@ -75,6 +75,7 @@ docker compose down
 # First we build our images and launch containers
 # TODO: should move to --no-cache when run on Jenkins or else?
 docker buildx bake
+#docker buildx bake arches
 
 echo -e "\n\n\033[1;33m*** Starting testing perfSONAR bundles from $REPO ***\033[0m\n"
 
