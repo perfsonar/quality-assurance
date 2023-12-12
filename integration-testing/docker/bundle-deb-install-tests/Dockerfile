@@ -18,7 +18,7 @@ FROM base AS base-with-proxy
 ARG proxy
 ENV http_proxy=http://${proxy}
 ENV https_proxy=https://${proxy}
-ENV no_proxy=localhost,127.0.0.1
+ENV no_proxy=localhost,127.0.0.1,::1
 
 FROM base AS base-without-proxy
 ENV http_proxy=
