@@ -6,21 +6,24 @@ mount /tmp -o remount,exec
 apt-get update
 
 BUNDLE="$@"
+OS=`awk -F '"' '/PRETTY_NAME/ {print $2}' /etc/os-release`
+
+# First download packages using the proxy if there is one
+apt-get -d install -y $BUNDLE
+echo -e "\n\033[1;32mFinished downloading packages to install $BUNDLE on $OS\033[0m\n"
+
+# Make sure a HTTPS proxy isn't used as it breaks OpenSearch installation
+unset https_proxy
 apt-get install -y $BUNDLE
 if [ "$?" -ne "0" ]; then
-    # Try again without any proxy
-    unset https_proxy
-    echo -e "\n\033[1;33mSomething went wrong during installation\033[0m"
-    echo -e "\n\033[1;33mLet's try the installation again without any HTTPS proxy\033[0m\n"
-    echo "Let's try installing again unsetting https_proxy." >&2
+    echo -e "\n\033[1;33mSomething went wrong during installation\033[0m\n"
+    echo "Let's try installing a second time." >&2
 fi
 apt-get install -y $BUNDLE
 if [ "$?" -ne "0" ]; then
     echo -e "\n\033[1;31mSomething went wrong during installation\033[0m\n"
     exit 1
 fi
-
-OS=`awk -F '"' '/PRETTY_NAME/ {print $2}' /etc/os-release`
 echo -e "\n\033[1;32mInstallation of bundle $BUNDLE on $OS went fine!\033[0m\n"
 
 if [[ $BUNDLE =~ perfsonar-(core|testpoint|toolkit) ]]; then
