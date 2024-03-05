@@ -3,6 +3,10 @@
 # Remount /tmp allowing exec
 mount /tmp -o remount,exec
 
+# Remove custom Docker policy-rc.d if present
+sed -i 's/^exit 101//' /usr/sbin/policy-rc.d
+
+# Let's be up to date
 apt-get update
 
 BUNDLE="$@"
@@ -31,8 +35,6 @@ if [[ $BUNDLE =~ perfsonar-(core|testpoint|toolkit) ]]; then
     echo "We'll now try to run pscheduler…"
     # Wait a bit so that pScheduler is ready
     sleep 15
-    # We don't want to have any https proxy in the way
-    unset https_proxy
     pscheduler troubleshoot
     if [ "$?" -ne "0" ]; then
         # Try a second time as pScheduler might be a bit picky
