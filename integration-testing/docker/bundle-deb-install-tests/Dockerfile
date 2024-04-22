@@ -62,8 +62,8 @@ ARG REPO
 RUN echo "Adding perfSONAR repository: $REPO"
 RUN curl -o /etc/apt/sources.list.d/$REPO.list http://downloads.perfsonar.net/debian/$REPO.list
 RUN if grep -qE "perfsonar-(release|[0-9]\.[0-9]) " /etc/apt/sources.list.d/$REPO.list; \
-    then curl http://downloads.perfsonar.net/debian/perfsonar-official.gpg.key | apt-key add - ; \
-    else curl http://downloads.perfsonar.net/debian/perfsonar-snapshot.gpg.key | apt-key add - ; \
+    then curl -s -o /etc/apt/trusted.gpg.d/perfsonar-official.gpg.asc http://downloads.perfsonar.net/debian/perfsonar-official.gpg.key ; \
+    else curl -s -o /etc/apt/trusted.gpg.d/perfsonar-snapshot.gpg.asc http://downloads.perfsonar.net/debian/perfsonar-snapshot.gpg.key ; \
     fi
 
 # Copy test script

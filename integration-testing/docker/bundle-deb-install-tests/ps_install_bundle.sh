@@ -16,8 +16,10 @@ OS=`awk -F '"' '/PRETTY_NAME/ {print $2}' /etc/os-release`
 apt-get -d install -y $BUNDLE
 echo -e "\n\033[1;32mFinished downloading packages to install $BUNDLE on $OS\033[0m\n"
 
-# Make sure a HTTPS proxy isn't used as it breaks OpenSearch installation
+# Make sure an HTTPS proxy isn't used as it breaks OpenSearch installation
 unset https_proxy
+# And set a default OpenSearch password
+export OPENSEARCH_INITIAL_ADMIN_PASSWORD="perfSONAR123!"
 apt-get install -y $BUNDLE
 if [ "$?" -ne "0" ]; then
     echo -e "\n\033[1;33mSomething went wrong during installation\033[0m\n"
