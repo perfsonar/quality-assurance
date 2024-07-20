@@ -81,9 +81,9 @@ target "single_test_almalinux_9" {
     inherits = ["single_test"]
     dockerfile = "Dockerfile-rpm"
     args = {
-        OSimage = "almalinux:latest"
+        OSimage = "almalinux:9"
     }
-    tags = ["${REPO}/almalinux:latest"]
+    tags = ["${REPO}/almalinux:9"]
 }
 target "single_test_ubuntu_jammy" {
     inherits = ["single_test"]
