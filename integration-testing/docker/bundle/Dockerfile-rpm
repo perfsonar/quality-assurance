@@ -7,10 +7,6 @@ RUN echo "BUNDLE!!!: $bundle"
 
 RUN echo "REPO!!!: $repo"
 
-#Copy test script
-COPY ./ps_install_rpm.sh /usr/bin/ps_install_bundle.sh
-RUN chmod 755 /usr/bin/ps_install_bundle.sh
-
 #cleanup to enable systemd
 RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == \
     systemd-tmpfiles-setup.service ] || rm -f $i; done); \
@@ -39,6 +35,10 @@ RUN yum clean all && \
 
 #shared volumes
 #VOLUME /sys/fs/cgroup
+
+#Copy test script
+COPY ./ps_install_rpm.sh /usr/local/bin/ps_install_bundle.sh
+RUN chmod 755 /usr/local/bin/ps_install_bundle.sh
 
 #Let docker know that pscheduler listens on 443
 EXPOSE 443
