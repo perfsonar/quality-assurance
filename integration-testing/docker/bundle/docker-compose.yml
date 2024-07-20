@@ -39,10 +39,10 @@ services:
     image: $REPO/ubuntu:focal
     tmpfs: *default-tmpfs
 
-  install_test_alma9:
-    container_name: install-test-alma
+  install_test_9:
+    container_name: install-test-9
     privileged: true
-    image: $REPO/almalinux:latest
+    image: $REPO/almalinux:9
     tmpfs: *default-tmpfs
 
   install_test_jammy:
