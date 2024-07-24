@@ -30,6 +30,7 @@ group "default" {
         "single_test_debian_bookworm",
         "single_test_ubuntu_focal",
         "single_test_almalinux_9",
+        "single_sanity",
         "single_test_ubuntu_jammy"
     ]
 }
@@ -91,6 +92,13 @@ target "single_test_ubuntu_jammy" {
         OSimage = "ubuntu:jammy"
     }
     tags = ["${REPO}/ubuntu:jammy"]
+}
+target "single_sanity" {
+    args = {
+    context: "../../../sanity-checking/"
+    dockerfile: "Dockerfile-single"
+    }
+    tags = ["${REPO}/single-sanity"]
 }
 target "full_arch_test" {
     inherits = ["root_target"]
