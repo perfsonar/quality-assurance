@@ -1,6 +1,9 @@
 FROM perfsonar/testpoint:latest
 
 #RUN yum -y upgrade && \
+RUN    sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo
+RUN    sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/*.repo
+RUN    sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/*.repo
 RUN    yum -y install perl-LWP-Protocol-https
 #    apt-get install -y libjson-perl jq
 
