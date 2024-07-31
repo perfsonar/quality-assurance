@@ -37,8 +37,8 @@ container_debug() {
 # Defaults
 LOGS_PREFIX="logs/ps_install"
 REPO="perfsonar-release"
-declare -a OSimages=("debian:bullseye" "debian:bookworm" "ubuntu:focal" "ubuntu:jammy" "almalinux:9")
-declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-archive" "perfsonar-core" "perfsonar-toolkit")
+declare -a OSimages=("debian:bullseye" "debian:bookworm" "ubuntu:focal" "ubuntu:jammy" "almalinux:9" "rockylinux:blueonyx")
+declare -a BUNDLES=("perfsonar-tools" "perfsonar-testpoint" "perfsonar-archive" "perfsonar-core" "perfsonar-toolkit" "maddash")
 debug=false
 
 # Parsing options
