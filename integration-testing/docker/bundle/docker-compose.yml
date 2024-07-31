@@ -45,6 +45,12 @@ services:
     image: $REPO/almalinux:9
     tmpfs: *default-tmpfs
 
+install_test_blueonyx:
+    container_name: install-test-blueonyx
+    privileged: true
+    image: $REPO/rockylinux:blueonyx
+    tmpfs: *default-tmpfs
+    
   install_test_jammy:
     container_name: install-test-jammy
     privileged: true
