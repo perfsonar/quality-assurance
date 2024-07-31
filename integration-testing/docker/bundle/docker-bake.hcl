@@ -30,6 +30,7 @@ group "default" {
         "single_test_debian_bookworm",
         "single_test_ubuntu_focal",
         "single_test_almalinux_9",
+        "single_test_rockylinux_blueonyx",
         "single_test_ubuntu_jammy"
     ]
 }
@@ -84,6 +85,14 @@ target "single_test_almalinux_9" {
         OSimage = "almalinux:9"
     }
     tags = ["${REPO}/almalinux:9"]
+}
+target "single_test_rockylinux_blueonyx" {
+    inherits = ["single_test"]
+    dockerfile = "Dockerfile-rpm"
+    args = {
+        OSimage = "rockylinux:9"
+    }
+    tags = ["${REPO}/rockylinux:blueonyx"]
 }
 target "single_test_ubuntu_jammy" {
     inherits = ["single_test"]
