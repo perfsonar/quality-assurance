@@ -11,6 +11,7 @@ The Docker testing setup supports the following OS:
  * Ubuntu 20 Focal Fossa
  * Ubuntu 22 Jammy Jellyfish
  * Almalinux 9
+ * Rockylinux 9
 
 ### Running the script
 The script attempts to install a perfSONAR bundle and then perform sanity checks using the `sanity-checking` scripts.  See [sanity-checking](../../../sanity-checking) for details.
@@ -29,6 +30,7 @@ You can run the tests by executing `test_install_instructions.sh -r $REPO -o $OS
    * `ubuntu:focal`
    * `ubuntu:jammy`
    * `almalinux:9`
+   * `rockylinux:blueonyx`
  * `$BUNDLE` is one of these (default is tools an testpoint as only those are supported on Debian and Ubuntu at the moment)
    * **`perfsonar-tools`**
    * **`perfsonar-testpoint`**
