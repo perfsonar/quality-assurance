@@ -1,4 +1,4 @@
-FROM perfsonar/testpoint:latest
+FROM perfsonar/testpoint:v5.0.8
 
 #RUN yum -y upgrade && \
 RUN    sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo
