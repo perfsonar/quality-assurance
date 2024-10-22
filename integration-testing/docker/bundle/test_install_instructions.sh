@@ -35,6 +35,9 @@ container_debug() {
 }
 
 # Defaults
+
+echo -e "\n\n\033[1;33m************* Start of test install instructions ***\033[0m\n"
+
 LOGS_PREFIX="logs/ps_install"
 REPO="perfsonar-release"
 declare -a OSimages=("debian:bullseye" "debian:bookworm" "ubuntu:focal" "ubuntu:jammy" "almalinux:9" "rockylinux:blueonyx")
@@ -74,8 +77,10 @@ docker compose down
 
 # First we build our images and launch containers
 # TODO: should move to --no-cache when run on Jenkins or else?
+
+echo -e "\n\n\033[1;33m************* Start to build images ***\033[0m\n"
+
 docker buildx bake
-#docker buildx bake arches
 
 echo -e "\n\n\033[1;33m*** Starting testing perfSONAR bundles from $REPO ***\033[0m\n"
 
@@ -92,7 +97,13 @@ for OSimage in ${OSimages[@]}; do
         docker compose up -d $CONTAINER
         echo -e "\n\033[1m===== INSTALLING ${LABEL} =====\033[0m"
         echo -e "Log to ${LOG}.log\n"
+
+        echo -e "\n\n\033[1;33m************* Start docker install test ${OSimage%%:*}${OSimage##*:} ***\033[0m\n"
+
         docker compose exec $CONTAINER /usr/local/bin/ps_install_bundle.sh "$BUNDLE" >> "${LOG}.log"
+
+        echo -e "\n\n\033[1;33m************* Finish docker install test ${OSimage%%:*}${OSimage##*:} ***\033[0m\n"
+
         STATUS=$?
         OUTPUT="$BUNDLE install "
         if [ "$STATUS" -eq "0" ]; then
@@ -114,12 +125,22 @@ for OSimage in ${OSimages[@]}; do
             docker compose rm -s -f $CONTAINER
             continue
         fi
+        echo -e "\n\n\033[1;33m************* Start to run single sanity tests for ${OSimage%%:*}${OSimage##*:} $REPO ***\033[0m\n"
+
         echo -e "\n\033[1m===== TESTING \033[0m$LABEL ====="
         echo -e "Log to ${LOG}_test.log\n"
+
+        echo -e "\n\n\033[1;33m************* Test Start ***\033[0m\n"
+
         docker compose run --rm single_sanity $CONTAINER $REPO >> "${LOG}_test.log" 2>&1
+
+        echo -e "\n\n\033[1;33m************* Test Finish ***\033[0m\n"
+
         SERVICE_STATUS=$?
         # TODO: try to capture output from run
         OUT+="\n"
+
+        echo -e "\n\n\033[1;33m************* End of run single sanity tests for ${OSimage%%:*}${OSimage##*:} $REPO ***\033[0m\n"
 
         OUTPUT="$BUNDLE service checks "
         if [ "$SERVICE_STATUS" -eq "0" ]; then
@@ -137,9 +158,10 @@ for OSimage in ${OSimages[@]}; do
     done
 done
 
+echo -e "\n\n\033[1;33m************* closing down now $REPO ***\033[0m\n"
+
 echo -e "\nNow stopping containers."
 docker compose down
 echo -e "OUT:\n$OUT\n"
 echo -e $OUT | jq .
 echo -e $TEXT_STATUS
-
