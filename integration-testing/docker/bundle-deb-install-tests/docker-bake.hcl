@@ -10,7 +10,7 @@ variable "REPO" {
     default = "perfsonar-patch-snapshot"
 }
 variable "OSimage" {
-    default = "debian:buster"
+    default = "debian:bullseye"
 }
 variable "OSfamily" {
     default = regex_replace("${OSimage}", ":.*", "")
@@ -25,11 +25,11 @@ variable "proxy" {
 // Defaults
 group "default" {
     targets = [
-        "single_test_debian_buster",
         "single_test_debian_bullseye",
         "single_test_debian_bookworm",
         "single_test_ubuntu_focal",
-        "single_test_ubuntu_jammy"
+        "single_test_ubuntu_jammy",
+        "single_test_ubuntu_noble"
     ]
 }
 group "arches" {
@@ -53,13 +53,6 @@ target "single_test" {
     inherits = ["root_target"]
     output = ["type=docker"]
     tags = ["${REPO}/${OSimage}"]
-}
-target "single_test_debian_buster" {
-    inherits = ["single_test"]
-    args = {
-        OSimage = "debian:buster"
-    }
-    tags = ["${REPO}/debian:buster"]
 }
 target "single_test_debian_bullseye" {
     inherits = ["single_test"]
@@ -88,6 +81,13 @@ target "single_test_ubuntu_jammy" {
         OSimage = "ubuntu:jammy"
     }
     tags = ["${REPO}/ubuntu:jammy"]
+}
+target "single_test_ubuntu_noble" {
+    inherits = ["single_test"]
+    args = {
+        OSimage = "ubuntu:noble"
+    }
+    tags = ["${REPO}/ubuntu:noble"]
 }
 target "full_arch_test" {
     inherits = ["root_target"]

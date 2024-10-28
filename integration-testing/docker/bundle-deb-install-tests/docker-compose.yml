@@ -14,14 +14,7 @@ x-tmpfs:
   - /tmp
 
 # Services
-version: '3.9'
 services:
-  install_test_buster:
-    container_name: install-test-buster
-    privileged: true
-    image: $REPO/debian:buster
-    tmpfs: *default-tmpfs
-
   install_test_bullseye:
     container_name: install-test-bullseye
     privileged: true
@@ -44,6 +37,12 @@ services:
     container_name: install-test-jammy
     privileged: true
     image: $REPO/ubuntu:jammy
+    tmpfs: *default-tmpfs
+
+  install_test_noble:
+    container_name: install-test-noble
+    privileged: true
+    image: $REPO/ubuntu:noble
     tmpfs: *default-tmpfs
 
   single_sanity:
