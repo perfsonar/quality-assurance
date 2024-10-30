@@ -10,7 +10,7 @@ variable "REPO" {
     default = "perfsonar-patch-snapshot"
 }
 variable "OSimage" {
-    default = "debian:bullseye"
+    default = "almalinux:latest"
 }
 variable "OSfamily" {
     default = regex_replace("${OSimage}", ":.*", "")
@@ -29,18 +29,14 @@ group "default" {
         "single_test_debian_bookworm",
         "single_test_ubuntu_focal",
         "single_test_ubuntu_jammy",
-        "single_test_ubuntu_noble"
-    ]
-}
-group "arches" {
-    targets = [
-        "full_arch_test"
+        "single_test_ubuntu_noble",
+        "single_test_almalinux_9",
+        "single_test_rockylinux_blueonyx"
     ]
 }
 
 // All the build targets
 target "root_target" {
-    target = "install-image"
     args = {
         OSimage = OSimage
         REPO = REPO
@@ -75,6 +71,22 @@ target "single_test_ubuntu_focal" {
     }
     tags = ["${REPO}/ubuntu:focal"]
 }
+target "single_test_almalinux_9" {
+    inherits = ["single_test"]
+    dockerfile = "Dockerfile-rpm"
+    args = {
+        OSimage = "almalinux:9"
+    }
+    tags = ["${REPO}/almalinux:9"]
+}
+target "single_test_rockylinux_blueonyx" {
+    inherits = ["single_test"]
+    dockerfile = "Dockerfile-rpm"
+    args = {
+        OSimage = "rockylinux:9"
+    }
+    tags = ["${REPO}/rockylinux:blueonyx"]
+}
 target "single_test_ubuntu_jammy" {
     inherits = ["single_test"]
     args = {
@@ -91,10 +103,7 @@ target "single_test_ubuntu_noble" {
 }
 target "full_arch_test" {
     inherits = ["root_target"]
-//    platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/ppc64le"]
-    platforms = ["linux/amd64", "linux/arm64"]
+    platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/ppc64le"]
     output = ["type=registry"]
     tags = ["docker.io/ntw0n/${REPO}/${OSimage}"]
 }
-
-

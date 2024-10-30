@@ -1,7 +1,7 @@
-# bundle-deb-install-tests
-This project provides ways of testing installation of perfSONAR DEB package-based bundles on Debian-based systems using Docker containers.
+# bundle
+This project provides ways of testing installation of perfSONAR DEB and RPM package-based bundles on Debian-based systems and Almalinux using Docker containers.
 
-## Testing perfSONAR installation on Debian and Ubuntu
+## Testing perfSONAR installation
 
 ### OS Support
 The Docker testing setup supports the following OS:
@@ -10,6 +10,8 @@ The Docker testing setup supports the following OS:
  * Ubuntu 18 Bionic Beaver
  * Ubuntu 20 Focal Fossa
  * Ubuntu 22 Jammy Jellyfish
+ * Almalinux 9
+ * Rockylinux 9
 
 ### Running the script
 The script attempts to install a perfSONAR bundle and then perform sanity checks using the `sanity-checking` scripts.  See [sanity-checking](../../../sanity-checking) for details.
@@ -27,6 +29,8 @@ You can run the tests by executing `test_install_instructions.sh -r $REPO -o $OS
    * `ubuntu:bionic`
    * `ubuntu:focal`
    * `ubuntu:jammy`
+   * `almalinux:9`
+   * `rockylinux:blueonyx`
  * `$BUNDLE` is one of these (default is tools an testpoint as only those are supported on Debian and Ubuntu at the moment)
    * **`perfsonar-tools`**
    * **`perfsonar-testpoint`**
