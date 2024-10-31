@@ -10,7 +10,7 @@ variable "REPO" {
     default = "perfsonar-patch-snapshot"
 }
 variable "OSimage" {
-    default = "almalinux:latest"
+    default = "debian:bullseye"
 }
 variable "OSfamily" {
     default = regex_replace("${OSimage}", ":.*", "")
@@ -34,9 +34,15 @@ group "default" {
         "single_test_rockylinux_blueonyx"
     ]
 }
+group "arches" {
+    targets = [
+        "full_arch_test"
+    ]
+}
 
 // All the build targets
 target "root_target" {
+    target = "install-image"
     args = {
         OSimage = OSimage
         REPO = REPO
@@ -107,3 +113,4 @@ target "full_arch_test" {
     output = ["type=registry"]
     tags = ["docker.io/ntw0n/${REPO}/${OSimage}"]
 }
+

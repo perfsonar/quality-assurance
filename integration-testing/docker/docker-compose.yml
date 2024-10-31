@@ -64,3 +64,4 @@ services:
       context: ../../../sanity-checking/
       dockerfile: Dockerfile-single
     image: single-sanity
+
