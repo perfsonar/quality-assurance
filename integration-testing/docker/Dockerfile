@@ -12,6 +12,7 @@ FROM ${OSimage} AS base
 ENV LC_ALL=C
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
+RUN apt-get -y upgrade
 
 # If you want to use a proxy to speed up download both at build time and test time (docker run)
 # Trick built on top of https://medium.com/@tonistiigi/advanced-multi-stage-build-patterns-6f741b852fae
@@ -34,6 +35,7 @@ ENV no_proxy=
 # Update apt cache, install some packages and do some cleanup
 FROM base-${useproxy}-proxy AS install-image
 RUN echo "Install image proxy is: ${https_proxy:-none}"
+RUN apt-get update && apt-get -y upgrade
 RUN apt-get install -y \
         apt-utils \
         curl \
@@ -78,7 +80,7 @@ RUN if grep -qE "perfsonar-(release|[0-9]\.[0-9]) " /etc/apt/sources.list.d/$REP
 COPY ./ps_install_bundle.sh /usr/local/bin/ps_install_bundle.sh
 RUN chmod 755 /usr/local/bin/ps_install_bundle.sh
 
-# Let docker know that pscheduler listens on 443
+# Let Docker know that pScheduler listens on 443
 EXPOSE 443
 
 # Start systemd

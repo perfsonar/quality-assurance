@@ -8,6 +8,7 @@ sed -i 's/^exit 101//' /usr/sbin/policy-rc.d
 
 # Let's be up to date
 apt-get update
+apt-get -y upgrade
 
 BUNDLE="$@"
 OS=`awk -F '"' '/PRETTY_NAME/ {print $2}' /etc/os-release`
@@ -18,6 +19,7 @@ echo -e "\n\033[1;32mFinished downloading packages to install $BUNDLE on $OS\033
 
 # Make sure an HTTPS proxy isn't used as it breaks OpenSearch installation
 unset https_proxy
+unset http_proxy
 # And set a default OpenSearch password
 export OPENSEARCH_INITIAL_ADMIN_PASSWORD="perfSONAR123!"
 apt-get install -y $BUNDLE
@@ -56,3 +58,20 @@ if [[ $BUNDLE =~ perfsonar-(core|testpoint|toolkit) ]]; then
     echo -e "\npScheduler seems to be running fine!\n"
 fi
 
+if [[ $BUNDLE =~ perfsonar-(archive|toolkit) ]]; then
+    # Run psarchive to see if all is fine
+    echo "We'll now try to run psarchive…"
+    # Wait a bit so that OpenSearch and Logstash are ready
+    sleep 20
+    psarchive troubleshoot --skip-opensearch-data
+    if [ "$?" -ne "0" ]; then
+        # Try a second time as Logstash might be a bit picky
+        echo "And a second time…"
+        sleep 40
+        psarchive troubleshoot --skip-opensearch-data
+        if [ "$?" -ne "0" ]; then
+            echo -e "\n\033[1;31mSomething went wrong with the archive\033[0m\n"
+            exit 1
+        fi
+    fi
+fi
