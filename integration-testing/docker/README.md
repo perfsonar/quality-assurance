@@ -5,13 +5,12 @@ This project provides ways of testing installation of perfSONAR DEB and RPM pack
 
 ### OS Support
 The Docker testing setup supports the following OS:
- * Debian 10 Buster
  * Debian 11 Bullseye
- * Ubuntu 18 Bionic Beaver
+ * Debian 12 Bookworm
  * Ubuntu 20 Focal Fossa
  * Ubuntu 22 Jammy Jellyfish
- * Almalinux 9
- * Rockylinux 9
+ * Ubuntu 24 Noble Numbat
+ * (Almalinux 9) - not working
 
 ### Running the script
 The script attempts to install a perfSONAR bundle and then perform sanity checks using the `sanity-checking` scripts.  See [sanity-checking](../../../sanity-checking) for details.
@@ -24,16 +23,15 @@ You can run the tests by executing `test_install_instructions.sh -r $REPO -o $OS
    * `perfsonar-minor-snapshot`
    * `perfsonar-patch-staging`
  * `$OS` is one of these (default to test **all**):
-   * `debian:buster`
    * `debian:bullseye`
-   * `ubuntu:bionic`
+   * `debian:bookworm`
    * `ubuntu:focal`
    * `ubuntu:jammy`
+   * `ubuntu:noble`
    * `almalinux:9`
-   * `rockylinux:blueonyx`
- * `$BUNDLE` is one of these (default is tools an testpoint as only those are supported on Debian and Ubuntu at the moment)
-   * **`perfsonar-tools`**
-   * **`perfsonar-testpoint`**
+ * `$BUNDLE` is one of these (default to teset **all**):
+   * `perfsonar-tools`
+   * `perfsonar-testpoint`
    * `perfsonar-core`
    * `perfsonar-centralmanagement`
    * `perfsonar-toolkit`

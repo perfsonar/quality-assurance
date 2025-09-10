@@ -18,7 +18,7 @@ Similarly, you can test installing PWA from RPMs on CentOS.
 
 This can optionally hook into the `sanity-checking` modules to run sanity checks as part of the process.
 
-## Vagrant
+## Vagrant (out of date)
 
 The Vagrantfiles provided are intended to work similarly to the Dockerfiles above, but are not as well developed.
 
