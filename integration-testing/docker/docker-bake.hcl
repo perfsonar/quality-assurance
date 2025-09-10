@@ -30,8 +30,7 @@ group "default" {
         "single_test_ubuntu_focal",
         "single_test_ubuntu_jammy",
         "single_test_ubuntu_noble",
-        "single_test_almalinux_9",
-        "single_test_rockylinux_blueonyx"
+        "single_test_almalinux_9"
     ]
 }
 group "arches" {
@@ -56,6 +55,14 @@ target "single_test" {
     output = ["type=docker"]
     tags = ["${REPO}/${OSimage}"]
 }
+target "single_test_almalinux_9" {
+    inherits = ["single_test"]
+    dockerfile = "Dockerfile-rpm"
+    args = {
+        OSimage = "almalinux:9"
+    }
+    tags = ["${REPO}/almalinux:9"]
+}
 target "single_test_debian_bullseye" {
     inherits = ["single_test"]
     args = {
@@ -76,22 +83,6 @@ target "single_test_ubuntu_focal" {
         OSimage = "ubuntu:focal"
     }
     tags = ["${REPO}/ubuntu:focal"]
-}
-target "single_test_almalinux_9" {
-    inherits = ["single_test"]
-    dockerfile = "Dockerfile-rpm"
-    args = {
-        OSimage = "almalinux:9"
-    }
-    tags = ["${REPO}/almalinux:9"]
-}
-target "single_test_rockylinux_blueonyx" {
-    inherits = ["single_test"]
-    dockerfile = "Dockerfile-rpm"
-    args = {
-        OSimage = "rockylinux:9"
-    }
-    tags = ["${REPO}/rockylinux:blueonyx"]
 }
 target "single_test_ubuntu_jammy" {
     inherits = ["single_test"]

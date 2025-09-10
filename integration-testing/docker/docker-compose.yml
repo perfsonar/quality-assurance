@@ -15,6 +15,12 @@ x-tmpfs:
 
 # Services
 services:
+  install_test_9:
+    container_name: install-test-9
+    privileged: true
+    image: $REPO/almalinux:9
+    tmpfs: *default-tmpfs
+
   install_test_bullseye:
     container_name: install-test-bullseye
     privileged: true
@@ -31,18 +37,6 @@ services:
     container_name: install-test-focal
     privileged: true
     image: $REPO/ubuntu:focal
-    tmpfs: *default-tmpfs
-
-  install_test_9:
-    container_name: install-test-9
-    privileged: true
-    image: $REPO/almalinux:9
-    tmpfs: *default-tmpfs
-
-  install_test_blueonyx:
-    container_name: install-test-blueonyx
-    privileged: true
-    image: $REPO/rockylinux:blueonyx
     tmpfs: *default-tmpfs
 
   install_test_jammy:
