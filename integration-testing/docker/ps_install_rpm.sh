@@ -3,10 +3,10 @@
 # Remount /tmp allowing exec
 mount /tmp -o remount,exec
 
-apt-get update
+yum update -y
 
 BUNDLE=$1
-apt-get install -y $BUNDLE
+yum install -y $BUNDLE
 if [ "$?" -ne "0" ]; then
     echo -e "\n\033[1;31mSomething went wrong during installation\033[0m\n"
     exit 1
@@ -38,4 +38,3 @@ if [[ $BUNDLE =~ perfsonar-(core|testpoint|toolkit) ]]; then
 
     echo -e "\npScheduler seems to be running fine!\n"
 fi
-
